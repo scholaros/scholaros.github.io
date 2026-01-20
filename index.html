@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ScholarOS</title>
+  <meta name="description" content="ScholarOS | Distribuição Linux baseada em Ubuntu" />
+  <style>
+    :root{--accent:#0069a8;--muted:#6b7280;--bg:#0f1724;--card:#0b1220;color-scheme: dark}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.4;margin:0;background:linear-gradient(180deg,#071427 0%, #081827 60%);color:#e6eef6;padding:24px}
+    .container{max-width:960px;margin:0 auto}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#0b7285);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;box-shadow:0 6px 20px rgba(2,6,23,.6)}
+    h1{font-size:clamp(1.4rem,3vw,2rem);margin:0}
+    p.lead{color:var(--muted);margin:8px 0 0}
+    nav a{color:#cfefff;text-decoration:none;margin-left:12px}
+    .hero{display:grid;grid-template-columns:1fr 320px;gap:24px;margin-top:28px;align-items:start}
+    .card{background:rgba(255,255,255,0.02);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,.6)}
+    .download{display:flex;flex-direction:column;gap:8px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:600}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),#0793c7);color:white}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#cde9ff}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+    .feature{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));}
+    .feature h3{margin:0 0 6px}
+    .cli{background:#071422;padding:12px;border-radius:8px;font-family:monospace;color:#bfe7ff}
+    footer{margin-top:32px;color:var(--muted);font-size:0.9rem;text-align:center}
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr}
+      .features{grid-template-columns:1fr}
+      nav{display:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">SO</div>
+        <div>
+          <h1>ScholarOS</h1>
+          <p class="lead">Uma distribuição Linux leve e focada no ambiente escolar</p>
+        </div>
+      </div>
+      <nav>
+        <a href="#features">Funcionalidades</a>
+        <a href="#download">Download</a>
+        <a href="#about">Sobre</a>
+        <a href="#docs">Documentação</a>
+        <a href="https://github.com/Fabejano555/fabejano555.github.io" target="_blank" rel="noopener noreferrer">
+          GitHub
+        </a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="card">
+          <h2>Rápido. Moderno. Seguro.</h2>
+          <p class="lead">
+            O ScholarOS combina estabilidade com pacotes selecionados e definições inteligentes
+            para privacidade, desempenho e ferramentas de desenvolvimento.
+          </p>
+
+          <div id="features" class="features">
+            <div class="feature">
+              <h3>GNOME & Wayland</h3>
+              <p class="muted">
+                Sessão GNOME polida do ScholarOS em Wayland, com ajustes de desempenho.
+              </p>
+            </div>
+            <div class="feature">
+              <h3>APT + COPR</h3>
+              <p class="muted">
+                Acesso simples aos pacotes do ScholarOS, repositórios Copr e builds de terceiros.
+              </p>
+            </div>
+            <div class="feature">
+              <h3>Amigável para Programadores</h3>
+              <p class="muted">
+                Inclui linguagens essenciais, ferramentas de containers e um conjunto de
+                ferramentas para desenvolvimento.
+              </p>
+            </div>
+          </div>
+
+          <h3 style="margin-top:14px">Início rápido</h3>
+          <div class="cli">
+            <div><strong>Verificar imagem</strong></div>
+            <code>sha256sum -c ScholarOS-40-x86_64.iso.sha256</code>
+            <div style="height:8px"></div>
+            <div><strong>Criar USB (exemplo)</strong></div>
+            <code>sudo dd if=ScholarOS-40-x86_64.iso of=/dev/sdX bs=4M status=progress && sync</code>
+          </div>
+        </div>
+
+        <aside class="card">
+          <h3 id="download">Download</h3>
+          <div class="download">
+            <a class="btn btn-primary" href="#">Descarregar ISO Live (x86_64)</a>
+            <a class="btn btn-ghost" href="#">Checksums e Assinaturas</a>
+          </div>
+        </aside>
+      </section>
+
+      <section id="about" style="margin-top:18px">
+        <div class="card">
+          <h2>Notas de instalação</h2>
+          <ol>
+            <li>Criar um USB de arranque (dd, ScholarOS Media Writer, Ventoy).</li>
+            <li>Arrancar pelo USB e escolher “Iniciar ScholarOS Live” para testar sem instalar.</li>
+            <li>Executar o instalador e escolher o disco, fuso horário e utilizador.</li>
+            <li>Após o primeiro arranque, ativar repositórios de terceiros e atualizar o sistema.</li>
+          </ol>
+
+          <h3>Ativar ScholarOS Fusion (exemplo)</h3>
+          <pre class="cli">sudo dnf install https://download.scholaros.org/fusion/free/scholaros-fusion-free-release.noarch.rpm
+sudo dnf install https://download.scholaros.org/fusion/nonfree/scholaros-fusion-nonfree-release.noarch.rpm
+sudo dnf update -y</pre>
+
+          <p class="muted">
+            Substitua os valores de versão pelo número da sua versão do ScholarOS (ex.: 40).
+          </p>
+        </div>
+      </section>
+
+      <section id="docs" style="margin-top:18px">
+        <div class="card">
+          <h2>Documentação e Suporte</h2>
+          <p>
+            Consulte a documentação completa, guias de resolução de problemas
+            e links da comunidade no repositório.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>2026 ScholarOS — Desenvolvido de forma independente. Não afiliado a outros projetos.</div>
+    </footer>
+  </div>
+</body>
+</html>
