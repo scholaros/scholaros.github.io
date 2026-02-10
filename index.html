@@ -3,49 +3,367 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ScholarOS</title>
-  <meta name="description" content="ScholarOS | Distribuição Linux baseada em Kubuntu" />
+  <title>ScholarOS - Distribuição Linux para Educação</title>
+  <meta name="description" content="ScholarOS | Distribuição Linux baseada em Kubuntu, focada no ambiente escolar" />
+  
+  <!-- Open Graph meta tags for better social sharing -->
+  <meta property="og:title" content="ScholarOS - Linux para Educação" />
+  <meta property="og:description" content="Uma distribuição Linux leve e focada no ambiente escolar" />
+  <meta property="og:type" content="website" />
+  
   <style>
-    :root{--accent:#0069a8;--muted:#6b7280;--bg:#0f1724;--card:#0b1220;color-scheme: dark}
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.4;margin:0;background:linear-gradient(180deg,#071427 0%, #081827 60%);color:#e6eef6;padding:24px}
-    .container{max-width:960px;margin:0 auto}
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#0b7285);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;box-shadow:0 6px 20px rgba(2,6,23,.6)}
-    h1{font-size:clamp(1.4rem,3vw,2rem);margin:0}
-    p.lead{color:var(--muted);margin:8px 0 0}
-    nav a{color:#cfefff;text-decoration:none;margin-left:12px}
-    .hero{display:grid;grid-template-columns:1fr 320px;gap:24px;margin-top:28px;align-items:start}
-    .card{background:rgba(255,255,255,0.02);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,.6)}
-    .download{display:flex;flex-direction:column;gap:8px}
-    .btn{display:inline-block;padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:600}
-    .btn-primary{background:linear-gradient(90deg,var(--accent),#0793c7);color:white}
-    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#cde9ff}
-    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
-    .feature{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));}
-    .feature h3{margin:0 0 6px}
-    .cli{background:#071422;padding:12px;border-radius:8px;font-family:monospace;color:#bfe7ff}
-    footer{margin-top:32px;color:var(--muted);font-size:0.9rem;text-align:center}
-    @media (max-width:880px){
-      .hero{grid-template-columns:1fr}
-      .features{grid-template-columns:1fr}
-      nav{display:none}
+    /**
+     * CSS VARIABLES
+     * Centralized theme colors for easy maintenance
+     */
+    :root {
+      --accent: #0069a8;
+      --muted: #6b7280;
+      --bg: #0f1724;
+      --card: #0b1220;
+      --text-primary: #e6eef6;
+      --text-link: #cfefff;
+      color-scheme: dark;
+    }
+
+    /**
+     * RESET & BASE STYLES
+     */
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6; /* Improved from 1.4 for better readability */
+      margin: 0;
+      background: linear-gradient(180deg, #071427 0%, #081827 60%);
+      color: var(--text-primary);
+      padding: 24px;
+    }
+
+    /**
+     * LAYOUT CONTAINER
+     * Max-width container for content centering
+     */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /**
+     * HEADER SECTION
+     */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 32px; /* Added spacing */
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* Logo with gradient background */
+    .logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), #0b7285);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      box-shadow: 0 6px 20px rgba(2, 6, 23, 0.6);
+      flex-shrink: 0; /* Prevents logo from shrinking */
+    }
+
+    h1 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      margin: 0;
+      font-weight: 700;
+    }
+
+    p.lead {
+      color: var(--muted);
+      margin: 8px 0 0;
+      font-size: 0.95rem;
+    }
+
+    /**
+     * NAVIGATION
+     */
+    nav a {
+      color: var(--text-link);
+      text-decoration: none;
+      margin-left: 12px;
+      transition: color 0.2s ease; /* Added smooth hover transition */
+    }
+
+    nav a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    nav a:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+
+    /**
+     * HERO SECTION
+     * Two-column layout on desktop, single column on mobile
+     */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+      margin-top: 28px;
+      align-items: start;
+    }
+
+    /**
+     * CARD COMPONENT
+     * Reusable card style with subtle background
+     */
+    .card {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 24px; /* Increased from 18px for better breathing room */
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05); /* Added subtle border */
+    }
+
+    /**
+     * DOWNLOAD SECTION
+     */
+    .download {
+      display: flex;
+      flex-direction: column;
+      gap: 12px; /* Increased from 8px */
+    }
+
+    /**
+     * BUTTON COMPONENTS
+     */
+    .btn {
+      display: inline-block;
+      padding: 12px 16px; /* Increased from 10px 14px */
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.2s ease; /* Added smooth transitions */
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent), #0793c7);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 105, 168, 0.4);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1); /* Increased visibility */
+      color: #cde9ff;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /**
+     * FEATURES GRID
+     * Three-column grid on desktop
+     */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 24px; /* Increased from 18px */
+    }
+
+    .feature {
+      padding: 16px; /* Increased from 12px */
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .feature h3 {
+      margin: 0 0 8px; /* Increased from 6px */
+      font-size: 1.1rem;
+      color: var(--text-primary);
+    }
+
+    .feature p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    /**
+     * CODE/CLI BLOCKS
+     * Terminal-style code display
+     */
+    .cli {
+      background: #071422;
+      padding: 16px; /* Increased from 12px */
+      border-radius: 8px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      color: #bfe7ff;
+      overflow-x: auto; /* Handle long commands */
+      border: 1px solid rgba(0, 105, 168, 0.3);
+    }
+
+    .cli code {
+      display: block;
+      margin: 4px 0;
+      word-wrap: break-word;
+    }
+
+    .cli strong {
+      color: #7dd3fc;
+      display: block;
+      margin-top: 12px;
+    }
+
+    .cli strong:first-child {
+      margin-top: 0;
+    }
+
+    /**
+     * SECTIONS
+     */
+    section {
+      margin-top: 24px;
+    }
+
+    section h2 {
+      margin-top: 0;
+      color: var(--text-primary);
+    }
+
+    section h3 {
+      color: var(--text-primary);
+      margin-top: 24px;
+    }
+
+    /* Ordered lists in installation notes */
+    ol {
+      padding-left: 24px;
+      line-height: 1.8;
+    }
+
+    ol li {
+      margin-bottom: 8px;
+    }
+
+    /* Preformatted code blocks */
+    pre {
+      margin: 16px 0;
+      overflow-x: auto;
+    }
+
+    /**
+     * FOOTER
+     */
+    footer {
+      margin-top: 48px; /* Increased from 32px */
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    /**
+     * RESPONSIVE DESIGN
+     * Mobile-first approach with tablet/mobile breakpoint
+     */
+    @media (max-width: 880px) {
+      body {
+        padding: 16px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        display: none;
+      }
+
+      header {
+        margin-bottom: 24px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+    }
+
+    /**
+     * ACCESSIBILITY IMPROVEMENTS
+     */
+    /* Skip to main content link for screen readers */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--accent);
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      border-radius: 0 0 4px 0;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* Focus visible for keyboard navigation */
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
   </style>
 </head>
 <body>
+  <!-- Accessibility: Skip to main content -->
+  <a href="#main-content" class="skip-link">Ir para conteúdo principal</a>
+
   <div class="container">
-    <header>
+    <header role="banner">
       <div class="brand">
-        <div class="logo">SO</div>
+        <!-- Logo with aria-hidden since text is redundant with h1 -->
+        <div class="logo" aria-hidden="true">SO</div>
         <div>
           <h1>ScholarOS</h1>
-          <p class="lead">Uma distribuição linux leve e focada no ambiente escolar</p>
+          <p class="lead">Uma distribuição Linux leve e focada no ambiente escolar</p>
         </div>
       </div>
-      <nav>
+      <nav role="navigation" aria-label="Navegação principal">
         <a href="#features">Funcionalidades</a>
         <a href="#download">Download</a>
         <a href="#about">Sobre</a>
@@ -56,92 +374,101 @@
       </nav>
     </header>
 
-    <main>
+    <main id="main-content" role="main">
       <section class="hero">
+        <!-- Main content card -->
         <div class="card">
           <h2>Rápido. Moderno. Seguro.</h2>
           <p class="lead">
-            O ScholarOS Combina Estabilidade Com Pacotes Selecionados e Definições Inteligentes
-            para Privacidade, Desempenho e Ferramentas de Desenvolvimento.
+            O ScholarOS combina estabilidade com pacotes selecionados e definições inteligentes
+            para privacidade, desempenho e ferramentas de desenvolvimento.
           </p>
 
+          <!-- Features grid -->
           <div id="features" class="features">
-            <div class="feature">
+            <article class="feature">
               <h3>KDE Plasma & Wayland</h3>
-              <p class="muted">
-                Sessão KDE Plasma + Wayland, com Ajustes de Desempenho.
+              <p>
+                Sessão KDE Plasma + Wayland, com ajustes de desempenho.
               </p>
-            </div>
-            <div class="feature">
+            </article>
+            <article class="feature">
               <h3>APT + COPR</h3>
-              <p class="muted">
-                Acesso Simples aos Pacotes do ScholarOS, Repositórios COPR e Builds de Terceiros.
+              <p>
+                Acesso simples aos pacotes do ScholarOS, repositórios COPR e builds de terceiros.
               </p>
-            </div>
-            <div class="feature">
+            </article>
+            <article class="feature">
               <h3>Amigável para Programadores</h3>
-              <p class="muted">
-                Inclui Linguagens Essenciais, Ferramentas de Containers e um Conjunto de
-                Ferramentas para Desenvolvimento.
+              <p>
+                Inclui linguagens essenciais, ferramentas de containers e um conjunto de
+                ferramentas para desenvolvimento.
               </p>
-            </div>
+            </article>
           </div>
 
-          <h3 style="margin-top:14px">Início Rápido</h3>
-          <div class="cli">
-            <div><strong>Verificar Imagem</strong></div>
+          <!-- Quick start guide -->
+          <h3>Início Rápido</h3>
+          <div class="cli" role="region" aria-label="Comandos de terminal">
+            <strong>Verificar Imagem</strong>
             <code>sha256sum -c ScholarOS-40-x86_64.iso.sha256</code>
-            <div style="height:8px"></div>
-            <div><strong>Criar USB (exemplo)</strong></div>
+            
+            <strong>Criar USB (exemplo)</strong>
             <code>sudo dd if=ScholarOS-40-x86_64.iso of=/dev/sdX bs=4M status=progress && sync</code>
           </div>
         </div>
 
-        <aside class="card">
+        <!-- Download sidebar -->
+        <aside class="card" role="complementary" aria-labelledby="download">
           <h3 id="download">Download</h3>
           <div class="download">
-            <a class="btn btn-primary" href="#">Descarregar ISO Live (x86_64)</a>
-            <a class="btn btn-ghost" href="#">Checksums e Assinaturas</a>
+            <a class="btn btn-primary" href="https://github.com/scholaros/scholaros.github.io/releases" target="_blank" rel="noopener noreferrer" role="button">
+              Descarregar ISO Live (x86_64)
+            </a>
+            <a class="btn btn-ghost" href="https://github.com/scholaros/scholaros.github.io/releases" target="_blank" rel="noopener noreferrer" role="button">
+              Checksums e Assinaturas
+            </a>
           </div>
         </aside>
       </section>
 
-      <section id="about" style="margin-top:18px">
+      <!-- Installation notes -->
+      <section id="about">
         <div class="card">
           <h2>Notas de Instalação</h2>
           <ol>
             <li>Criar um USB de arranque (dd, balenaEtcher, Ventoy).</li>
-            <li>Arrancar pelo USB e escolher “Iniciar ScholarOS Live” para testar sem instalar.</li>
+            <li>Arrancar pelo USB e escolher "Iniciar ScholarOS Live" para testar sem instalar.</li>
             <li>Executar o instalador e escolher o disco, fuso horário e utilizador.</li>
             <li>Após o primeiro arranque, ativar repositórios de terceiros e atualizar o sistema.</li>
           </ol>
 
           <h3>Ativar ScholarOS Fusion (exemplo)</h3>
-          <pre class="cli">sudo dnf install https://download.scholaros.org/fusion/free/scholaros-fusion-free-release.noarch.rpm
+          <pre class="cli"><code>sudo dnf install https://download.scholaros.org/fusion/free/scholaros-fusion-free-release.noarch.rpm
 sudo dnf install https://download.scholaros.org/fusion/nonfree/scholaros-fusion-nonfree-release.noarch.rpm
-sudo dnf update -y</pre>
+sudo dnf update -y</code></pre>
 
-          <p class="muted">
+          <p class="lead">
             Substitua os valores de versão pelo número da sua versão do ScholarOS (ex.: 40).
           </p>
         </div>
       </section>
 
-      <section id="docs" style="margin-top:18px">
+      <!-- Documentation section -->
+      <section id="docs">
         <div class="card">
           <h2>Documentação e Suporte</h2>
           <p>
             Consulte a documentação completa, guias de resolução de problemas
-            e links da comunidade no repositório.
+            e links da comunidade no repositório oficial do GitHub.
           </p>
         </div>
       </section>
     </main>
 
-    <footer>
-      <div>2026 ScholarOS — Desenvolvido de Forma Independente. Não Afiliado a Outros Projetos.</div>
+    <footer role="contentinfo">
+      <p>&copy; 2026 ScholarOS — Desenvolvido de forma independente. Não afiliado a outros projetos.</p>
     </footer>
   </div>
 </body>
 </html>
-
