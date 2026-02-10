@@ -183,7 +183,7 @@ Veja a lista completa de [issues abertas](https://github.com/scholaros/scholaros
 
 ## 📜 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto está sob a licença AGPLv3. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ## 🙏 Agradecimentos
 
