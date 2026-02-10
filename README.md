@@ -5,7 +5,7 @@
 > Uma distribuição Linux leve e focada no ambiente escolar
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-brightgreen)](https://scholaros.github.io)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-AGPLv3-blue.svg)](LICENSE)
 [![HTML5](https://img.shields.io/badge/HTML-5-orange)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS3](https://img.shields.io/badge/CSS-3-blue)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 
