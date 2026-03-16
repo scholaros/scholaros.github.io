@@ -6,16 +6,11 @@
   <title>ScholarOS - Distribuição Linux para Educação</title>
   <meta name="description" content="ScholarOS | Distribuição Linux baseada em Kubuntu, focada no ambiente escolar" />
   
-  <!-- Open Graph meta tags for better social sharing -->
   <meta property="og:title" content="ScholarOS - Linux para Educação" />
   <meta property="og:description" content="Uma distribuição Linux leve e focada no ambiente escolar" />
   <meta property="og:type" content="website" />
   
   <style>
-    /**
-     * CSS VARIABLES
-     * Centralized theme colors for easy maintenance
-     */
     :root {
       --accent: #0069a8;
       --muted: #6b7280;
@@ -25,10 +20,7 @@
       --text-link: #cfefff;
       color-scheme: dark;
     }
-
-    /**
-     * RESET & BASE STYLES
-     */
+    
     * {
       box-sizing: border-box;
     }
@@ -39,31 +31,24 @@
 
     body {
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.6; /* Improved from 1.4 for better readability */
+      line-height: 1.6;
       margin: 0;
       background: linear-gradient(180deg, #071427 0%, #081827 60%);
       color: var(--text-primary);
       padding: 24px;
     }
 
-    /**
-     * LAYOUT CONTAINER
-     * Max-width container for content centering
-     */
     .container {
       max-width: 960px;
       margin: 0 auto;
     }
-
-    /**
-     * HEADER SECTION
-     */
+    
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      margin-bottom: 32px; /* Added spacing */
+      margin-bottom: 32px;
     }
 
     .brand {
@@ -71,8 +56,7 @@
       gap: 12px;
       align-items: center;
     }
-
-    /* Logo with gradient background */
+    
     .logo {
       width: 56px;
       height: 56px;
@@ -99,14 +83,11 @@
       font-size: 0.95rem;
     }
 
-    /**
-     * NAVIGATION
-     */
     nav a {
       color: var(--text-link);
       text-decoration: none;
       margin-left: 12px;
-      transition: color 0.2s ease; /* Added smooth hover transition */
+      transition: color 0.2s ease;
     }
 
     nav a:hover {
@@ -119,11 +100,7 @@
       outline-offset: 4px;
       border-radius: 4px;
     }
-
-    /**
-     * HERO SECTION
-     * Two-column layout on desktop, single column on mobile
-     */
+    
     .hero {
       display: grid;
       grid-template-columns: 1fr 320px;
@@ -131,11 +108,7 @@
       margin-top: 28px;
       align-items: start;
     }
-
-    /**
-     * CARD COMPONENT
-     * Reusable card style with subtle background
-     */
+    
     .card {
       background: rgba(255, 255, 255, 0.02);
       padding: 24px; /* Increased from 18px for better breathing room */
