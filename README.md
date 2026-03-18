@@ -54,7 +54,11 @@ ScholarOS is built for education and is fully open-source. We welcome contributi
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details. (Note: Underlying software from Ubuntu/Edubuntu and Ollama retain their respective open-source licenses).
+This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)** - see the [LICENSE](LICENSE) file for details. 
+
+**What this means:** You are free to use, modify, and distribute ScholarOS. However, if you distribute a modified version of this project—or if you host modified portions of this software on a server to allow users to interact with it over a network (like a cloud-hosted AI tutor)—you *must* make your source code publicly available under the exact same AGPL-3.0 license.
+
+*(Note: ScholarOS is an aggregate OS. The underlying Ubuntu/Edubuntu packages, Linux kernel, and Ollama retain their respective original open-source licenses. The AGPL-3.0 applies strictly to the configurations, web interfaces, and specific code created to tie the ScholarOS project together.)*
 
 ---
 *Built for the future of education.*
