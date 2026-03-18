@@ -1,210 +1,60 @@
-# ScholarOS
+# 🎓 ScholarOS
 
-![ScholarOS Logo](https://via.placeholder.com/150x150/0069a8/ffffff?text=SO)
+**The Smart OS for Modern Classrooms** *(O SO Inteligente para as Salas de Aula Modernas)*
 
-> Uma distribuição Linux leve e focada no ambiente escolar
+ScholarOS is a specialized Linux distribution built on the rock-solid foundation of [Edubuntu](https://edubuntu.org/), supercharged with local, offline Artificial Intelligence via [Ollama](https://ollama.com/). It is designed to empower students and teachers with cutting-edge technology while guaranteeing 100% data privacy.
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-brightgreen)](https://scholaros.github.io)
-[![License](https://img.shields.io/badge/license-AGPLv3-blue.svg)](LICENSE)
-[![HTML5](https://img.shields.io/badge/HTML-5-orange)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS-3-blue)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+---
 
-## 🚀 Sobre o ScholarOS
+## ✨ Features
 
-ScholarOS é uma distribuição Linux moderna, leve e otimizada para ambientes educacionais. Combinando estabilidade com pacotes cuidadosamente selecionados, oferece:
-
-- ⚡ **Rápido**: Otimizado para desempenho em hardware escolar
-- 🔒 **Seguro**: Configurações inteligentes de privacidade e segurança
-- 🛠️ **Completo**: Ferramentas essenciais para desenvolvimento e aprendizado
-- 🎨 **Moderno**: Interface KDE Plasma com Wayland
+* **🐧 Edubuntu Foundation:** Comes pre-loaded with the best educational software out of the box. From mathematics and science to art and programming, everything a student needs is ready to use without extra downloads.
+* **🧠 Integrated AI (Ollama):** Features an embedded Ollama instance running locally. Students can interact with a powerful, specialized Large Language Model (LLM) designed strictly as an educational tutor.
+* **🔒 100% Privacy & Offline Capable:** Since all AI models and software run entirely locally on the hardware, no student queries, data, or personal information ever leave the classroom or connect to external cloud servers.
+* **🌍 Bilingual Design:** Built with support for both English and Portuguese environments.
 
 ## 📥 Download
 
-[![Download ISO](https://img.shields.io/badge/Download-ISO%20Live-0069a8?style=for-the-badge)](https://github.com/scholaros/scholaros.github.io/releases)
+You can download the latest ScholarOS `.iso` image directly from our official release folder:
 
-**Versão Atual**: 40 (x86_64)  
-**Data de Lançamento**: Em breve
+**[Download ScholarOS ISO](https://drive.google.com/drive/folders/1p5p0nHEf7aJovvLhZJF8yXSMCjPJJbO3)**
 
-### Checksums
-```bash
-# Verificar integridade da imagem
-sha256sum -c ScholarOS-40-x86_64.iso.sha256
-```
+## 💻 System Requirements
 
-## ✨ Funcionalidades
+Because ScholarOS runs Large Language Models locally, it requires slightly more resources than a standard lightweight Linux distribution.
 
-### 🖥️ KDE Plasma & Wayland
-Sessão KDE Plasma otimizada com Wayland, proporcionando uma experiência visual moderna e fluida.
+**Minimum:**
+* **CPU:** 64-bit Dual-Core processor (AVX/AVX2 support highly recommended for AI inference)
+* **RAM:** 8 GB
+* **Storage:** 40 GB of free hard drive space (SSD strongly recommended)
+* **Graphics:** Standard VGA/Display output
 
-### 📦 APT + COPR
-Acesso fácil aos repositórios oficiais do ScholarOS, COPR e builds de terceiros para software adicional.
+**Recommended (For Smooth AI Performance):**
+* **CPU:** Modern Quad-Core processor (Intel i5/AMD Ryzen 5 or better)
+* **RAM:** 16 GB+
+* **Storage:** 60+ GB SSD/NVMe
+* **Graphics:** Dedicated GPU (NVIDIA/AMD) speeds up Ollama inference significantly, but is not strictly required.
 
-### 💻 Amigável para Programadores
-Inclui:
-- Linguagens essenciais (Python, Java, C/C++)
-- Ferramentas de containers (Docker, Podman)
-- IDEs e editores modernos
-- Git e ferramentas de controle de versão
+## 🚀 Installation
 
-## 🛠️ Instalação
+1.  **Download the ISO** from the link above.
+2.  **Create a Bootable USB** using a tool like [BalenaEtcher](https://etcher.balena.io/), [Rufus](https://rufus.ie/) (Windows), or standard `dd` commands on Linux.
+3.  **Boot your computer** from the USB drive.
+4.  Follow the standard, user-friendly Ubuntu/Edubuntu graphical installer to set up ScholarOS on your machine.
 
-### Requisitos Mínimos
-- **Processador**: 64-bit dual-core
-- **RAM**: 2 GB (4 GB recomendado)
-- **Disco**: 20 GB de espaço livre
-- **Placa gráfica**: Compatível com OpenGL 2.0+
+## 🤝 Contributing
 
-### Passos de Instalação
+ScholarOS is built for education and is fully open-source. We welcome contributions from developers, educators, and designers!
 
-1. **Baixe a ISO**
-   ```bash
-   # Download da versão mais recente
-   wget https://github.com/scholaros/scholaros.github.io/releases/download/v40/ScholarOS-40-x86_64.iso
-   ```
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-2. **Crie um USB de arranque**
-   ```bash
-   # Método 1: usando dd
-   sudo dd if=ScholarOS-40-x86_64.iso of=/dev/sdX bs=4M status=progress && sync
-   
-   # Método 2: usando balenaEtcher (recomendado)
-   # Download em: https://www.balena.io/etcher/
-   
-   # Método 3: usando Ventoy
-   # Download em: https://www.ventoy.net/
-   ```
+## 📄 License
 
-3. **Arranque pelo USB**
-   - Reinicie o computador
-   - Acesse o menu de boot (geralmente F12, F2 ou Del)
-   - Selecione o USB
-   - Escolha "Iniciar ScholarOS Live"
-
-4. **Instale o sistema**
-   - Execute o instalador
-   - Escolha disco, fuso horário e crie seu utilizador
-   - Aguarde a instalação completar
-   - Reinicie o sistema
-
-5. **Configure repositórios adicionais** (opcional)
-   ```bash
-   sudo dnf install https://download.scholaros.org/fusion/free/scholaros-fusion-free-release.noarch.rpm
-   sudo dnf install https://download.scholaros.org/fusion/nonfree/scholaros-fusion-nonfree-release.noarch.rpm
-   sudo dnf update -y
-   ```
-
-## 📖 Documentação
-
-Para documentação completa, consulte:
-
-- **[Documentação Completa](DOCUMENTACAO.md)** - Guia técnico detalhado
-- **[Code Review](REVIEW.md)** - Revisão técnica do código
-- **[Wiki](https://github.com/scholaros/scholaros.github.io/wiki)** - Base de conhecimento
-- **[FAQ](https://github.com/scholaros/scholaros.github.io/wiki/FAQ)** - Perguntas frequentes
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Veja como você pode ajudar:
-
-1. **Reporte bugs**: Abra uma [issue](https://github.com/scholaros/scholaros.github.io/issues)
-2. **Sugira funcionalidades**: Use [discussions](https://github.com/scholaros/scholaros.github.io/discussions)
-3. **Melhore a documentação**: Faça um pull request
-4. **Traduza**: Ajude a traduzir para outros idiomas
-
-### Como Contribuir com Código
-
-```bash
-# 1. Fork este repositório
-# 2. Clone seu fork
-git clone https://github.com/SEU_USUARIO/scholaros.github.io.git
-
-# 3. Crie uma branch
-git checkout -b feature/minha-contribuicao
-
-# 4. Faça suas alterações e commit
-git commit -m "Descrição das alterações"
-
-# 5. Push para seu fork
-git push origin feature/minha-contribuicao
-
-# 6. Abra um Pull Request
-```
-
-## 🏗️ Desenvolvimento do Website
-
-Este website é construído com:
-- HTML5 semântico
-- CSS3 com Grid e Flexbox
-- Sem dependências JavaScript
-- 100% responsivo
-- Acessível (WCAG 2.1)
-
-### Setup Local
-
-```bash
-# Clone o repositório
-git clone https://github.com/scholaros/scholaros.github.io.git
-cd scholaros.github.io
-
-# Abra em um servidor local
-python3 -m http.server 8000
-
-# Acesse http://localhost:8000
-```
-
-### Estrutura do Projeto
-
-```
-scholaros.github.io/
-├── index.html           # Página principal
-├── README.md            # Este arquivo
-├── DOCUMENTACAO.md      # Documentação técnica completa
-├── REVIEW.md            # Revisão de código
-└── assets/              # Recursos (futuro)
-    ├── images/
-    └── downloads/
-```
-
-## 📊 Status do Projeto
-
-- [x] Website básico
-- [x] Design responsivo
-- [x] Acessibilidade
-- [x] SEO otimizado
-- [ ] Primeiro release ISO
-- [ ] Screenshots do sistema
-- [ ] Documentação completa de usuário
-- [ ] Fórum da comunidade
-- [ ] Multi-idioma
-
-## 🐛 Problemas Conhecidos
-
-Veja a lista completa de [issues abertas](https://github.com/scholaros/scholaros.github.io/issues).
-
-## 📜 Licença
-
-Este projeto está sob a licença AGPLv3. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## 🙏 Agradecimentos
-
-- Comunidade Linux
-- Projeto KDE
-- Todos os contribuidores
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details. (Note: Underlying software from Ubuntu/Edubuntu and Ollama retain their respective open-source licenses).
 
 ---
-
-## 📞 Contato e Suporte
-
-- **GitHub Issues**: [Reporte bugs](https://github.com/scholaros/scholaros.github.io/issues)
-- **Discussions**: [Participe da conversa](https://github.com/scholaros/scholaros.github.io/discussions)
-- **Website**: [https://scholaros.github.io](https://scholaros.github.io)
-
----
-
-<p align="center">
-  Feito com ❤️ para a comunidade educacional
-</p>
-
-<p align="center">
-  <sub>2026 ScholarOS — Desenvolvido de forma independente</sub>
-</p>
+*Built for the future of education.*
