@@ -1,448 +1,257 @@
-<!doctype html>
-<html lang="pt">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ScholarOS - Distribuição Linux para Educação</title>
-  <meta name="description" content="ScholarOS | Distribuição Linux baseada em ... focada no ambiente escolar" />
-  
-  <meta property="og:title" content="ScholarOS - Linux para Educação" />
-  <meta property="og:description" content="Uma distribuição Linux leve e focada no ambiente escolar" />
-  <meta property="og:type" content="website" />
-  
-  <style>
-    :root {
-      --accent: #0069a8;
-      --muted: #6b7280;
-      --bg: #0f1724;
-      --card: #0b1220;
-      --text-primary: #e6eef6;
-      --text-link: #cfefff;
-      color-scheme: dark;
-    }
-    
-    * {
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScholarOS - The Smart OS for Education</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+        }
 
-    html, body {
-      height: 100%;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    body {
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      background: linear-gradient(180deg, #071427 0%, #081827 60%);
-      color: var(--text-primary);
-      padding: 24px;
-    }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
 
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-    
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 32px;
-    }
+        /* Navigation */
+        nav {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    .brand {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-    
-    .logo {
-      width: 56px;
-      height: 56px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), #0b7285);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: white;
-      box-shadow: 0 6px 20px rgba(2, 6, 23, 0.6);
-      flex-shrink: 0; /* Prevents logo from shrinking */
-    }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    h1 {
-      font-size: clamp(1.4rem, 3vw, 2rem);
-      margin: 0;
-      font-weight: 700;
-    }
+        .lang-switch button {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-left: 5px;
+            transition: all 0.3s ease;
+        }
 
-    p.lead {
-      color: var(--muted);
-      margin: 8px 0 0;
-      font-size: 0.95rem;
-    }
+        .lang-switch button:hover, .lang-switch button.active {
+            background: white;
+            color: var(--primary-color);
+        }
 
-    nav a {
-      color: var(--text-link);
-      text-decoration: none;
-      margin-left: 12px;
-      transition: color 0.2s ease;
-    }
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
 
-    nav a:hover {
-      color: white;
-      text-decoration: underline;
-    }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
 
-    nav a:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 4px;
-      border-radius: 4px;
-    }
-    
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 24px;
-      margin-top: 28px;
-      align-items: start;
-    }
-    
-    .card {
-      background: rgba(255, 255, 255, 0.02);
-      padding: 24px; /* Increased from 18px for better breathing room */
-      border-radius: 12px;
-      box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.05); /* Added subtle border */
-    }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+        }
 
-    /**
-     * DOWNLOAD SECTION
-     */
-    .download {
-      display: flex;
-      flex-direction: column;
-      gap: 12px; /* Increased from 8px */
-    }
+        .btn {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.2s ease;
+        }
 
-    /**
-     * BUTTON COMPONENTS
-     */
-    .btn {
-      display: inline-block;
-      padding: 12px 16px; /* Increased from 10px 14px */
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      text-align: center;
-      transition: all 0.2s ease; /* Added smooth transitions */
-      cursor: pointer;
-    }
+        .btn:hover {
+            transform: translateY(-3px);
+            background: #c0392b;
+        }
 
-    .btn-primary {
-      background: linear-gradient(90deg, var(--accent), #0793c7);
-      color: white;
-    }
+        /* Features Section */
+        .features {
+            padding: 80px 5%;
+            text-align: center;
+        }
 
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 105, 168, 0.4);
-    }
+        .features h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+        }
 
-    .btn-ghost {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.1); /* Increased visibility */
-      color: #cde9ff;
-    }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
 
-    .btn-ghost:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
 
-    /**
-     * FEATURES GRID
-     * Three-column grid on desktop
-     */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 24px; /* Increased from 18px */
-    }
+        .card:hover {
+            transform: translateY(-5px);
+        }
 
-    .feature {
-      padding: 16px; /* Increased from 12px */
-      border-radius: 10px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
+        .card h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
 
-    .feature h3 {
-      margin: 0 0 8px; /* Increased from 6px */
-      font-size: 1.1rem;
-      color: var(--text-primary);
-    }
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
 
-    .feature p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-
-    /**
-     * CODE/CLI BLOCKS
-     * Terminal-style code display
-     */
-    .cli {
-      background: #071422;
-      padding: 16px; /* Increased from 12px */
-      border-radius: 8px;
-      font-family: 'Monaco', 'Courier New', monospace;
-      color: #bfe7ff;
-      overflow-x: auto; /* Handle long commands */
-      border: 1px solid rgba(0, 105, 168, 0.3);
-    }
-
-    .cli code {
-      display: block;
-      margin: 4px 0;
-      word-wrap: break-word;
-    }
-
-    .cli strong {
-      color: #7dd3fc;
-      display: block;
-      margin-top: 12px;
-    }
-
-    .cli strong:first-child {
-      margin-top: 0;
-    }
-
-    /**
-     * SECTIONS
-     */
-    section {
-      margin-top: 24px;
-    }
-
-    section h2 {
-      margin-top: 0;
-      color: var(--text-primary);
-    }
-
-    section h3 {
-      color: var(--text-primary);
-      margin-top: 24px;
-    }
-
-    /* Ordered lists in installation notes */
-    ol {
-      padding-left: 24px;
-      line-height: 1.8;
-    }
-
-    ol li {
-      margin-bottom: 8px;
-    }
-
-    /* Preformatted code blocks */
-    pre {
-      margin: 16px 0;
-      overflow-x: auto;
-    }
-
-    /**
-     * FOOTER
-     */
-    footer {
-      margin-top: 48px; /* Increased from 32px */
-      padding-top: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--muted);
-      font-size: 0.9rem;
-      text-align: center;
-    }
-
-    /**
-     * RESPONSIVE DESIGN
-     * Mobile-first approach with tablet/mobile breakpoint
-     */
-    @media (max-width: 880px) {
-      body {
-        padding: 16px;
-      }
-
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .features {
-        grid-template-columns: 1fr;
-      }
-
-      nav {
-        display: none;
-      }
-
-      header {
-        margin-bottom: 24px;
-      }
-
-      .card {
-        padding: 18px;
-      }
-    }
-
-    /**
-     * ACCESSIBILITY IMPROVEMENTS
-     */
-    /* Skip to main content link for screen readers */
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      background: var(--accent);
-      color: white;
-      padding: 8px 16px;
-      text-decoration: none;
-      border-radius: 0 0 4px 0;
-    }
-
-    .skip-link:focus {
-      top: 0;
-    }
-
-    /* Focus visible for keyboard navigation */
-    *:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-  </style>
+        /* Language Toggle Classes */
+        .pt { display: none; }
+    </style>
 </head>
 <body>
-  <!-- Accessibility: Skip to main content -->
-  <a href="#main-content" class="skip-link">Ir para conteúdo principal</a>
 
-  <div class="container">
-    <header role="banner">
-      <div class="brand">
-        <!-- Logo with aria-hidden since text is redundant with h1 -->
-        <div class="logo" aria-hidden="true">SO</div>
-        <div>
-          <h1>ScholarOS</h1>
-          <p class="lead">Uma distribuição Linux leve e focada no ambiente escolar</p>
+    <nav>
+        <div class="logo">
+            🎓 ScholarOS
         </div>
-      </div>
-      <nav role="navigation" aria-label="Navegação principal">
-        <a href="#features">Funcionalidades</a>
-        <a href="#download">Download</a>
-        <a href="#about">Sobre</a>
-        <a href="#docs">Documentação</a>
-        <a href="https://github.com/scholaros/scholaros.github.io" target="_blank" rel="noopener noreferrer">
-          GitHub
-        </a>
-      </nav>
+        <div class="lang-switch">
+            <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+            <button id="btn-pt" onclick="setLang('pt')">PT</button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="en">
+            <h1>The Smart OS for Modern Classrooms</h1>
+            <p>Built on the rock-solid foundation of Edubuntu, supercharged with local AI via Ollama. Empowering students and teachers while guaranteeing 100% data privacy.</p>
+            <a href="#download" class="btn">Download ScholarOS</a>
+        </div>
+        <div class="pt">
+            <h1>O SO Inteligente para as Salas de Aula Modernas</h1>
+            <p>Construído sobre a base sólida do Edubuntu, potenciado por IA local através do Ollama. Capacita alunos e professores garantindo 100% de privacidade dos dados.</p>
+            <a href="#download" class="btn">Descarregar ScholarOS</a>
+        </div>
     </header>
 
-    <main id="main-content" role="main">
-      <section class="hero">
-        <!-- Main content card -->
-        <div class="card">
-          <h2>Rápido. Moderno. Seguro.</h2>
-          <p class="lead">
-            O ScholarOS combina estabilidade com pacotes selecionados e definições inteligentes
-            para privacidade, desempenho e ferramentas de desenvolvimento.
-          </p>
-
-          <!-- Features grid -->
-          <div id="features" class="features">
-            <article class="feature">
-              <h3>KDE Plasma & Wayland</h3>
-              <p>
-                Sessão KDE Plasma + Wayland, com ajustes de desempenho.
-              </p>
-            </article>
-            <article class="feature">
-              <h3>APT + COPR</h3>
-              <p>
-                Acesso simples aos pacotes do ScholarOS, repositórios COPR e builds de terceiros.
-              </p>
-            </article>
-            <article class="feature">
-              <h3>Amigável para Programadores</h3>
-              <p>
-                Inclui linguagens essenciais, ferramentas de containers e um conjunto de
-                ferramentas para desenvolvimento.
-              </p>
-            </article>
-          </div>
-
-          <!-- Quick start guide -->
-          <h3>Início Rápido</h3>
-          <div class="cli" role="region" aria-label="Comandos de terminal">
-            <strong>Verificar Imagem</strong>
-            <code>sha256sum -c ScholarOS-40-x86_64.iso.sha256</code>
-            
-            <strong>Criar USB (exemplo)</strong>
-            <code>sudo dd if=ScholarOS-40-x86_64.iso of=/dev/sdX bs=4M status=progress && sync</code>
-          </div>
+    <section class="features">
+        <div class="en">
+            <h2>Why Choose ScholarOS?</h2>
+        </div>
+        <div class="pt">
+            <h2>Porquê escolher o ScholarOS?</h2>
         </div>
 
-        <!-- Download sidebar -->
-        <aside class="card" role="complementary" aria-labelledby="download">
-          <h3 id="download">Download</h3>
-          <div class="download">
-            <a class="btn btn-primary" href="https://drive.google.com/drive/folders/1p5p0nHEf7aJovvLhZJF8yXSMCjPJJbO3?usp=drive_link" target="_blank" rel="noopener noreferrer" role="button">
-              Descarregar ISO Live (x86_64)
-            </a>
-            <a class="btn btn-ghost" href="https://drive.google.com/drive/folders/1p5p0nHEf7aJovvLhZJF8yXSMCjPJJbO3?usp=drive_link" target="_blank" rel="noopener noreferrer" role="button">
-              Checksums e Assinaturas
-            </a>
-          </div>
-        </aside>
-      </section>
+        <div class="grid">
+            <div class="card">
+                <div class="en">
+                    <h3>🐧 Edubuntu Foundation</h3>
+                    <p>Comes pre-loaded with the best educational software out of the box. From mathematics to programming, everything a student needs is ready to use without extra downloads.</p>
+                </div>
+                <div class="pt">
+                    <h3>🐧 Base Edubuntu</h3>
+                    <p>Vem pré-carregado com o melhor software educativo. Da matemática à programação, tudo o que um aluno precisa está pronto a usar sem necessidade de transferências extra.</p>
+                </div>
+            </div>
 
-      <!-- Installation notes -->
-      <section id="about">
-        <div class="card">
-          <h2>Notas de Instalação</h2>
-          <ol>
-            <li>Criar um USB de arranque (dd, balenaEtcher, Ventoy).</li>
-            <li>Arrancar pelo USB e escolher "Iniciar ScholarOS Live" para testar sem instalar.</li>
-            <li>Executar o instalador e escolher o disco, fuso horário e utilizador.</li>
-            <li>Após o primeiro arranque, ativar repositórios de terceiros e atualizar o sistema.</li>
-          </ol>
+            <div class="card">
+                <div class="en">
+                    <h3>🧠 Integrated AI (Ollama)</h3>
+                    <p>ScholarOS features an embedded Ollama instance. Students can interact with a powerful, specialized Large Language Model (LLM) designed strictly as an educational tutor.</p>
+                </div>
+                <div class="pt">
+                    <h3>🧠 IA Integrada (Ollama)</h3>
+                    <p>O ScholarOS possui uma instância Ollama embutida. Os alunos podem interagir com um poderoso Modelo de Linguagem (LLM) especializado, concebido estritamente como um tutor educativo.</p>
+                </div>
+            </div>
 
-          <h3>Ativar ScholarOS Fusion (exemplo)</h3>
-          <pre class="cli"><code>sudo dnf install https://download.scholaros.org/fusion/free/scholaros-fusion-free-release.noarch.rpm
-sudo dnf install https://download.scholaros.org/fusion/nonfree/scholaros-fusion-nonfree-release.noarch.rpm
-sudo dnf update -y</code></pre>
-
-          <p class="lead">
-            Substitua os valores de versão pelo número da sua versão do ScholarOS (ex.: 40).
-          </p>
+            <div class="card">
+                <div class="en">
+                    <h3>🔒 100% Privacy & Offline</h3>
+                    <p>Since the AI models run locally on the hardware, no student queries, data, or personal information ever leave the classroom or connect to external cloud servers.</p>
+                </div>
+                <div class="pt">
+                    <h3>🔒 100% Privado e Offline</h3>
+                    <p>Como os modelos de IA correm localmente no hardware, nenhuma pergunta, dado ou informação pessoal dos alunos sai da sala de aula ou se liga a servidores na nuvem externos.</p>
+                </div>
+            </div>
         </div>
-      </section>
+    </section>
 
-      <!-- Documentation section -->
-      <section id="docs">
-        <div class="card">
-          <h2>Documentação e Suporte</h2>
-          <p>
-            Consulte a documentação completa, guias de resolução de problemas
-            e links da comunidade no repositório oficial do GitHub.
-          </p>
+    <footer>
+        <div class="en">
+            <p>&copy; 2026 ScholarOS Project. Open Source & Built for Education.</p>
         </div>
-      </section>
-    </main>
-
-    <footer role="contentinfo">
-      <p>&copy; 2026 ScholarOS — Desenvolvido de forma independente. Não afiliado a outros projetos.</p>
+        <div class="pt">
+            <p>&copy; 2026 Projeto ScholarOS. Código Aberto & Feito para a Educação.</p>
+        </div>
     </footer>
-  </div>
+
+    <script>
+        function setLang(lang) {
+            // Get all language elements
+            const enElements = document.querySelectorAll('.en');
+            const ptElements = document.querySelectorAll('.pt');
+            
+            // Get buttons
+            const btnEn = document.getElementById('btn-en');
+            const btnPt = document.getElementById('btn-pt');
+
+            if (lang === 'pt') {
+                enElements.forEach(el => el.style.display = 'none');
+                ptElements.forEach(el => el.style.display = 'block');
+                btnPt.classList.add('active');
+                btnEn.classList.remove('active');
+                document.documentElement.lang = 'pt';
+                document.title = "ScholarOS - O SO Inteligente para a Educação";
+            } else {
+                ptElements.forEach(el => el.style.display = 'none');
+                enElements.forEach(el => el.style.display = 'block');
+                btnEn.classList.add('active');
+                btnPt.classList.remove('active');
+                document.documentElement.lang = 'en';
+                document.title = "ScholarOS - The Smart OS for Education";
+            }
+        }
+    </script>
 </body>
 </html>
-
