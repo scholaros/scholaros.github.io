@@ -27,7 +27,6 @@
             line-height: 1.6;
         }
 
-        /* Navigation */
         nav {
             background-color: var(--primary-color);
             color: white;
@@ -92,7 +91,6 @@
             color: var(--primary-color);
         }
 
-        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
@@ -128,7 +126,6 @@
             background: #c0392b;
         }
 
-        /* Features Section */
         .features {
             padding: 80px 5%;
             text-align: center;
@@ -164,7 +161,6 @@
             font-size: 1.5rem;
         }
 
-        /* Footer */
         footer {
             background: var(--primary-color);
             color: white;
@@ -173,7 +169,6 @@
             margin-top: 50px;
         }
 
-        /* Language Toggle Classes */
         .pt { display: none; }
     </style>
 </head>
@@ -266,11 +261,9 @@
 
     <script>
         function setLang(lang) {
-            // Get all language elements
             const enElements = document.querySelectorAll('.en');
             const ptElements = document.querySelectorAll('.pt');
             
-            // Get buttons
             const btnEn = document.getElementById('btn-en');
             const btnPt = document.getElementById('btn-pt');
 
