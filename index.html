@@ -1,288 +1,1052 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScholarOS - The Smart OS for Education</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --bg-color: #f8f9fa;
-            --text-color: #333;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ScholarOS — the open-source OS built on Edubuntu, supercharged with local AI via Ollama. 100% private, offline-first, and made for modern classrooms." />
+  <meta name="theme-color" content="#0a0f1e" />
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <!-- FIX #6: Add Open Graph meta tags for social sharing -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="ScholarOS — The Smart OS for Education" />
+  <meta property="og:description" content="Built on Edubuntu, supercharged with local AI via Ollama. 100% private, offline-first, and made for modern classrooms." />
+  <meta property="og:url"         content="https://scholaros.github.io" />
+  <meta name="twitter:card"       content="summary_large_image" />
+  <meta name="twitter:title"      content="ScholarOS — The Smart OS for Education" />
+  <meta name="twitter:description" content="100% private, offline-first AI for modern classrooms." />
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
+  <title>ScholarOS — The Smart OS for Education</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
 
-        nav {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+  <style>
+    /* ─── Reset & Variables ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    :root {
+      --ink:        #0a0f1e;
+      --ink-2:      #1a2340;
+      --paper:      #f5f2eb;
+      --paper-2:    #ede9e0;
+      --gold:       #c8993a;
+      --gold-light: #e8c06a;
+      --sky:        #3a7bd5;
+      --sky-light:  #6ba3f5;
+      --white:      #ffffff;
+      --muted:      #8892a4;
 
-        .nav-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
 
-        .github-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 6px 12px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out:   cubic-bezier(0.45, 0, 0.55, 1);
 
-        .github-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
+      --nav-h: 72px;
+    }
 
-        .github-btn svg {
-            fill: currentColor;
-        }
+    html { scroll-behavior: smooth; }
 
-        .lang-switch button {
-            background: transparent;
-            color: white;
-            border: 1px solid white;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-left: 5px;
-            transition: all 0.3s ease;
-        }
+    body {
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-        .lang-switch button:hover, .lang-switch button.active {
-            background: white;
-            color: var(--primary-color);
-        }
+    /* ─── FIX #5: Skip-to-content link ─────────────────────────────── */
+    .skip-link {
+      position: fixed;
+      top: -100%;
+      left: 16px;
+      background: var(--gold);
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 10px 18px;
+      border-radius: 0 0 10px 10px;
+      text-decoration: none;
+      z-index: 9999;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 0; outline: 3px solid var(--ink); outline-offset: 2px; }
 
-        .hero {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
-        }
+    /* ─── Language transition veil ──────────────────────────────────── */
+    /*
+     * A near-invisible ink curtain that sweeps across the page while the
+     * language DOM swap happens, masking the instant content flash.
+     * Stays below the nav (z-index 200) so branding is always visible.
+     */
+    #lang-veil {
+      position: fixed;
+      inset: 0;
+      background: var(--ink);
+      opacity: 0;
+      pointer-events: none;          /* never blocks interaction */
+      z-index: 150;
+      transition: opacity 0.18s cubic-bezier(0.4, 0, 0.6, 1);
+    }
+    #lang-veil.fade-in  { opacity: 0.22; }
+    #lang-veil.fade-out { opacity: 0;    }
 
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
+    /* ─── Utility ───────────────────────────────────────────────────── */
+    .hidden { display: none !important; }
 
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 30px auto;
-        }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
 
-        .btn {
-            display: inline-block;
-            background: var(--accent-color);
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: transform 0.2s ease;
-        }
+    /* ─── Nav ───────────────────────────────────────────────────────── */
+    nav#main-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /* FIX #10: clamp padding so it never overflows on narrow screens */
+      padding: 0 clamp(16px, 5%, 5%);
+      z-index: 200;
+      transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+    }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            background: #c0392b;
-        }
+    nav#main-nav.scrolled {
+      background: rgba(10, 15, 30, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+    }
 
-        .features {
-            padding: 80px 5%;
-            text-align: center;
-        }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      flex-shrink: 0; /* FIX #10 */
+    }
 
-        .features h2 {
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            color: var(--primary-color);
-        }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* tightened slightly for mobile */
+      /* FIX #10: prevent overflow on very small screens */
+      min-width: 0;
+      flex-shrink: 1;
+    }
 
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
+    .github-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 7px 14px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
 
-        .card:hover {
-            transform: translateY(-5px);
-        }
+    .github-btn:hover {
+      color: var(--white);
+      border-color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.07);
+    }
 
-        .card h3 {
-            color: var(--secondary-color);
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
+    .github-btn svg { fill: currentColor; flex-shrink: 0; }
 
-        footer {
-            background: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
+    .lang-pills {
+      display: flex;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0; /* FIX #10 */
+    }
 
-        .pt { display: none; }
-    </style>
+    .lang-pills button {
+      background: transparent;
+      color: rgba(255,255,255,0.55);
+      border: none;
+      padding: 7px 13px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .lang-pills button.active {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    /* ─── Hero ──────────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: calc(var(--nav-h) + 60px) 6% 80px;
+      overflow: hidden;
+      background: var(--ink);
+    }
+
+    /* Star field canvas */
+    #stars-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+
+    /* Diagonal separator */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 120px;
+      background: var(--paper);
+      clip-path: polygon(0 100%, 100% 100%, 100% 0);
+    }
+
+    .hero-eyebrow {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fade-up 0.8s var(--ease-out-expo) 0.2s forwards;
+    }
+
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: '';
+      height: 1px;
+      width: 32px;
+      background: currentColor;
+      opacity: 0.5;
+    }
+
+    .hero-title {
+      position: relative;
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 1.05;
+      color: var(--white);
+      max-width: 14ch;
+      margin: 0 auto 28px;
+      opacity: 0;
+      animation: fade-up 0.9s var(--ease-out-expo) 0.35s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .hero-sub {
+      position: relative;
+      max-width: 54ch;
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.75;
+      margin: 0 auto 48px;
+      opacity: 0;
+      animation: fade-up 0.9s var(--ease-out-expo) 0.5s forwards;
+    }
+
+    .hero-actions {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      opacity: 0;
+      animation: fade-up 0.9s var(--ease-out-expo) 0.65s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: transform 0.25s var(--ease-out-expo), box-shadow 0.25s;
+      box-shadow: 0 0 0 0 rgba(200,153,58,0);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(200,153,58,0.35);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      text-decoration: none;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    .btn-secondary:hover {
+      color: var(--white);
+      border-color: rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* badges */
+    .hero-badges {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 56px;
+      opacity: 0;
+      animation: fade-up 0.9s var(--ease-out-expo) 0.8s forwards;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px;
+      padding: 5px 13px;
+    }
+
+    .badge span { color: var(--gold-light); }
+
+    /* ─── Features ──────────────────────────────────────────────────── */
+    .features {
+      padding: 120px 6% 100px;
+      background: var(--paper);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      color: var(--ink);
+      max-width: 20ch;
+      margin: 0 auto;
+    }
+
+    /* FIX #8: give features section-title its own color override for dark bg */
+    .stats .section-title { color: var(--white); }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid rgba(10,15,30,0.07);
+      border-radius: 20px;
+      padding: 40px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s var(--ease-out-expo), box-shadow 0.35s;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(10,15,30,0.1);
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, rgba(200,153,58,0.12), rgba(232,192,106,0.08));
+      border: 1px solid rgba(200,153,58,0.2);
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 1.4rem;
+      margin-bottom: 24px;
+    }
+
+    .card h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--ink);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #5a6478;
+      line-height: 1.75;
+    }
+
+    /* ─── Stats strip ────────────────────────────────────────────────── */
+    .stats {
+      background: var(--ink-2);
+      padding: 72px 6%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 40px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      color: var(--gold-light);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── How it works ──────────────────────────────────────────────── */
+    .how {
+      padding: 120px 6% 100px;
+      background: var(--paper);
+    }
+
+    /* FIX #9: Step connector — use flex on .steps and align properly */
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0;
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* The connector line sits between step numbers, not edge-to-edge */
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 27px; /* vertically centre with the 56px step circle */
+      /* align between the centres of first and last step numbers */
+      left: calc(100% / 6);
+      right: calc(100% / 6);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .step {
+      flex: 1 1 200px;
+      max-width: 280px;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .step-num {
+      width: 56px; height: 56px;
+      background: var(--ink);
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--gold-light);
+      margin: 0 auto 28px;
+      position: relative; /* sits above the ::before line */
+      z-index: 1;
+    }
+
+    .step h4 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      font-size: 0.88rem;
+      color: #5a6478;
+      line-height: 1.7;
+    }
+
+    /* ─── CTA ───────────────────────────────────────────────────────── */
+    .cta {
+      background: var(--ink);
+      padding: 100px 6%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta::before {
+      content: '🎓';
+      position: absolute;
+      font-size: 320px;
+      opacity: 0.03;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .cta h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: var(--white);
+      max-width: 18ch;
+      margin: 0 auto 20px;
+      line-height: 1.1;
+    }
+
+    .cta p {
+      color: rgba(255,255,255,0.5);
+      max-width: 48ch;
+      margin: 0 auto 40px;
+      font-size: 1.05rem;
+    }
+
+    /* ─── Footer ────────────────────────────────────────────────────── */
+    footer {
+      background: #060a14;
+      color: rgba(255,255,255,0.35);
+      padding: 28px clamp(16px, 6%, 6%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.8rem;
+    }
+
+    footer a {
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--gold); }
+
+    .footer-links { display: flex; gap: 20px; }
+
+    /* ─── Scroll reveal ─────────────────────────────────────────────── */
+    /*
+     * FIX #1: Only elements that are currently visible (not hidden) get the
+     * reveal transition. Elements with .hidden have display:none so
+     * IntersectionObserver never fires on them. The JS refreshReveal() function
+     * handles newly-shown elements when the language switches.
+     */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s var(--ease-out-expo), transform 0.75s var(--ease-out-expo);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ─── Keyframes ─────────────────────────────────────────────────── */
+    @keyframes fade-up {
+      to { opacity: 1; transform: none; }
+    }
+
+    /* ─── Responsive ────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .steps::before { display: none; }
+      /* FIX #10: hide text label on GitHub button on small screens */
+      .nav-right .github-btn .gh-label { display: none; }
+      footer { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+
+    /* FIX #10: on very small screens, shrink nav items further */
+    @media (max-width: 380px) {
+      .lang-pills button { padding: 6px 9px; }
+      .github-btn { padding: 6px 10px; }
+    }
+  </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">
-            🎓 ScholarOS
-        </div>
-        <div class="nav-controls">
-            <a href="https://github.com/scholaros/scholaros.github.io" target="_blank" rel="noopener noreferrer" class="github-btn" aria-label="GitHub Repository">
-                <svg height="20" width="20" viewBox="0 0 16 16">
-                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
-                </svg>
-                <span>GitHub</span>
-            </a>
+  <!-- FIX #5: Skip-to-content link for keyboard / screen reader users -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-            <div class="lang-switch">
-                <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
-                <button id="btn-pt" onclick="setLang('pt')">PT</button>
-            </div>
-        </div>
-    </nav>
+  <!-- Language transition veil — fades content during EN↔PT swap -->
+  <div id="lang-veil" aria-hidden="true"></div>
 
-    <header class="hero">
-        <div class="en">
-            <h1>The Smart OS for Modern Classrooms</h1>
-            <p>Built on the rock-solid foundation of Edubuntu, supercharged with local AI via Ollama. Empowering students and teachers while guaranteeing 100% data privacy.</p>
-            <a href="https://drive.google.com/drive/folders/1p5p0nHEf7aJovvLhZJF8yXSMCjPJJbO3" target="_blank" rel="noopener noreferrer" class="btn">Download ScholarOS</a>
-        </div>
-        <div class="pt">
-            <h1>O SO Inteligente para as Salas de Aula Modernas</h1>
-            <p>Construído sobre a base sólida do Edubuntu, potenciado por IA local através do Ollama. Capacita alunos e professores garantindo 100% de privacidade dos dados.</p>
-            <a href="https://drive.google.com/drive/folders/1p5p0nHEf7aJovvLhZJF8yXSMCjPJJbO3" target="_blank" rel="noopener noreferrer" class="btn">Descarregar ScholarOS</a>
-        </div>
-    </header>
+  <!-- ─── Nav ──────────────────────────────────────────────────────── -->
+  <nav id="main-nav" aria-label="Main navigation">
+    <a href="#" class="logo" aria-label="ScholarOS home">
+      <div class="logo-icon" aria-hidden="true">🎓</div>
+      ScholarOS
+    </a>
+    <div class="nav-right">
+      <a href="https://github.com/scholaros/scholaros.github.io" target="_blank" rel="noopener noreferrer" class="github-btn" aria-label="GitHub repository">
+        <svg height="17" width="17" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        <!-- FIX #10: wrapped in span so it's easy to hide on small screens -->
+        <span class="gh-label">GitHub</span>
+      </a>
+      <div class="lang-pills" role="group" aria-label="Language selector">
+        <button id="btn-en" class="active" aria-pressed="true">EN</button>
+        <button id="btn-pt" aria-pressed="false">PT</button>
+      </div>
+    </div>
+  </nav>
 
-    <section class="features">
-        <div class="en">
-            <h2>Why Choose ScholarOS?</h2>
-        </div>
-        <div class="pt">
-            <h2>Porquê escolher o ScholarOS?</h2>
-        </div>
+  <main id="main-content">
 
-        <div class="grid">
-            <div class="card">
-                <div class="en">
-                    <h3>🐧 Edubuntu Foundation</h3>
-                    <p>Comes pre-loaded with the best educational software out of the box. From mathematics to programming, everything a student needs is ready to use without extra downloads.</p>
-                </div>
-                <div class="pt">
-                    <h3>🐧 Base Edubuntu</h3>
-                    <p>Vem pré-carregado com o melhor software educativo. Da matemática à programação, tudo o que um aluno precisa está pronto a usar sem necessidade de transferências extra.</p>
-                </div>
-            </div>
+    <!-- ─── Hero ──────────────────────────────────────────────────── -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <canvas id="stars-canvas" aria-hidden="true"></canvas>
 
-            <div class="card">
-                <div class="en">
-                    <h3>🧠 Integrated AI (Ollama)</h3>
-                    <p>ScholarOS features an embedded Ollama instance. Students can interact with a powerful, specialized Large Language Model (LLM) designed strictly as an educational tutor.</p>
-                </div>
-                <div class="pt">
-                    <h3>🧠 IA Integrada (Ollama)</h3>
-                    <p>O ScholarOS possui uma instância Ollama embutida. Os alunos podem interagir com um poderoso Modelo de Linguagem (LLM) especializado, concebido estritamente como um tutor educativo.</p>
-                </div>
-            </div>
+      <!-- Single element per language group — language JS swaps content -->
+      <p class="hero-eyebrow" id="hero-eyebrow-text">Open Source · Education · Privacy-First</p>
 
-            <div class="card">
-                <div class="en">
-                    <h3>🔒 100% Privacy & Offline</h3>
-                    <p>Since the AI models run locally on the hardware, no student queries, data, or personal information ever leave the classroom or connect to external cloud servers.</p>
-                </div>
-                <div class="pt">
-                    <h3>🔒 100% Privado e Offline</h3>
-                    <p>Como os modelos de IA correm localmente no hardware, nenhuma pergunta, dado ou informação pessoal dos alunos sai da sala de aula ou se liga a servidores na nuvem externos.</p>
-                </div>
-            </div>
+      <h1 class="hero-title" id="hero-heading">
+        <span class="en">The <em>smart</em> OS for modern classrooms</span>
+        <span class="pt hidden">O SO <em>inteligente</em> para a sala de aula moderna</span>
+      </h1>
+
+      <p class="hero-sub">
+        <span class="en">Built on Edubuntu, supercharged with local AI via Ollama. Students and teachers get the power of a large language model — with zero data ever leaving the room.</span>
+        <span class="pt hidden">Construído sobre o Edubuntu, potenciado por IA local via Ollama. Alunos e professores têm acesso a modelos de linguagem avançados — sem que qualquer dado saia da sala.</span>
+      </p>
+
+      <div class="hero-actions">
+        <a href="https://drive.google.com/drive/folders/1p5p0nHEf7aJovvLhZJF8yXSMCjPJJbO3" target="_blank" rel="noopener noreferrer" class="btn-primary">
+          <span class="en">⬇ Download ScholarOS</span>
+          <span class="pt hidden">⬇ Descarregar ScholarOS</span>
+        </a>
+        <a href="https://github.com/scholaros/scholaros.github.io" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          <span class="en">View on GitHub →</span>
+          <span class="pt hidden">Ver no GitHub →</span>
+        </a>
+      </div>
+
+      <div class="hero-badges">
+        <div class="badge">
+          <span aria-hidden="true">✓</span>
+          <span class="en">100% Offline AI</span><span class="pt hidden">100% IA Offline</span>
         </div>
+        <div class="badge">
+          <span aria-hidden="true">✓</span>
+          <span class="en">Open Source</span><span class="pt hidden">Código Aberto</span>
+        </div>
+        <div class="badge">
+          <span aria-hidden="true">✓</span>
+          <span class="en">Built on Edubuntu</span><span class="pt hidden">Baseado em Edubuntu</span>
+        </div>
+        <div class="badge">
+          <span aria-hidden="true">✓</span>
+          <span class="en">Zero Cloud Dependency</span><span class="pt hidden">Sem Dependência da Nuvem</span>
+        </div>
+      </div>
     </section>
 
-    <footer>
-        <div class="en">
-            <p>🄯 2026 ScholarOS Project. Open Source & Built for Education.</p>
-        </div>
-        <div class="pt">
-            <p>🄯 2026 Projeto ScholarOS. Código Aberto & Feito para a Educação.</p>
-        </div>
-    </footer>
+    <!-- ─── Features ──────────────────────────────────────────────── -->
+    <!-- FIX #8: unique ID per section heading -->
+    <section class="features" aria-labelledby="features-heading">
+      <div class="section-header reveal">
+        <p class="section-label en">Core Features</p>
+        <p class="section-label pt hidden">Funcionalidades Principais</p>
+        <h2 class="section-title" id="features-heading">
+          <span class="en">Everything a classroom needs, nothing it doesn't</span>
+          <span class="pt hidden">Tudo o que uma sala de aula precisa, nada mais</span>
+        </h2>
+      </div>
 
-    <script>
-        function setLang(lang) {
-            const enElements = document.querySelectorAll('.en');
-            const ptElements = document.querySelectorAll('.pt');
-            
-            const btnEn = document.getElementById('btn-en');
-            const btnPt = document.getElementById('btn-pt');
+      <div class="cards-grid">
+        <div class="card reveal" style="transition-delay:0.05s">
+          <div class="card-icon" aria-hidden="true">🐧</div>
+          <h3><span class="en">Edubuntu Foundation</span><span class="pt hidden">Base Edubuntu</span></h3>
+          <p>
+            <span class="en">Pre-loaded with the best educational software — from mathematics to programming. Everything a student needs, ready to use out of the box with no extra downloads required.</span>
+            <span class="pt hidden">Pré-carregado com o melhor software educativo — da matemática à programação. Tudo o que um aluno precisa, pronto a usar de imediato, sem transferências adicionais.</span>
+          </p>
+        </div>
 
-            if (lang === 'pt') {
-                enElements.forEach(el => el.style.display = 'none');
-                ptElements.forEach(el => el.style.display = 'block');
-                btnPt.classList.add('active');
-                btnEn.classList.remove('active');
-                document.documentElement.lang = 'pt';
-                document.title = "ScholarOS - O SO Inteligente para a Educação";
-            } else {
-                ptElements.forEach(el => el.style.display = 'none');
-                enElements.forEach(el => el.style.display = 'block');
-                btnEn.classList.add('active');
-                btnPt.classList.remove('active');
-                document.documentElement.lang = 'en';
-                document.title = "ScholarOS - The Smart OS for Education";
-            }
+        <div class="card reveal" style="transition-delay:0.12s">
+          <div class="card-icon" aria-hidden="true">🧠</div>
+          <h3><span class="en">Integrated AI via Ollama</span><span class="pt hidden">IA Integrada via Ollama</span></h3>
+          <p>
+            <span class="en">An embedded Ollama instance gives students access to a powerful, specialised LLM designed strictly as an educational tutor — contextual, safe, and always on task.</span>
+            <span class="pt hidden">Uma instância Ollama embutida dá acesso a um LLM poderoso e especializado, concebido como tutor educativo — contextual, seguro e sempre focado no estudo.</span>
+          </p>
+        </div>
+
+        <div class="card reveal" style="transition-delay:0.19s">
+          <div class="card-icon" aria-hidden="true">🔒</div>
+          <h3><span class="en">100% Private &amp; Offline</span><span class="pt hidden">100% Privado e Offline</span></h3>
+          <p>
+            <span class="en">AI models run entirely on local hardware. No student query, data, or personal information ever touches an external server. GDPR-friendly by design, not by policy.</span>
+            <span class="pt hidden">Os modelos de IA correm inteiramente em hardware local. Nenhuma pergunta, dado ou informação pessoal alguma vez toca num servidor externo. Compatível com RGPD por arquitetura.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Stats ──────────────────────────────────────────────────── -->
+    <div class="stats" role="region" aria-label="Project statistics">
+      <div class="reveal">
+        <div class="stat-num">100%</div>
+        <div class="stat-label en">Data stays local</div>
+        <div class="stat-label pt hidden">Dados ficam locais</div>
+      </div>
+      <div class="reveal" style="transition-delay:0.1s">
+        <div class="stat-num">0€</div>
+        <div class="stat-label en">Cost to deploy</div>
+        <div class="stat-label pt hidden">Custo de implementação</div>
+      </div>
+      <div class="reveal" style="transition-delay:0.2s">
+        <div class="stat-num">∞</div>
+        <div class="stat-label en">AI queries per day</div>
+        <div class="stat-label pt hidden">Consultas de IA por dia</div>
+      </div>
+      <div class="reveal" style="transition-delay:0.3s">
+        <div class="stat-num">1</div>
+        <div class="stat-label en">USB drive to install</div>
+        <div class="stat-label pt hidden">Pen USB para instalar</div>
+      </div>
+    </div>
+
+    <!-- ─── How it works ──────────────────────────────────────────── -->
+    <!-- FIX #8: unique ID -->
+    <section class="how" aria-labelledby="how-heading">
+      <div class="section-header reveal">
+        <p class="section-label en">Get Started</p>
+        <p class="section-label pt hidden">Começar</p>
+        <h2 class="section-title" id="how-heading">
+          <span class="en">Up and running in minutes</span>
+          <span class="pt hidden">Em funcionamento em minutos</span>
+        </h2>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal" style="transition-delay:0.05s">
+          <div class="step-num" aria-hidden="true">1</div>
+          <h4><span class="en">Download</span><span class="pt hidden">Descarregar</span></h4>
+          <p>
+            <span class="en">Grab the latest ISO from our Google Drive. It's free, always.</span>
+            <span class="pt hidden">Descarregue o ISO mais recente do nosso Google Drive. É sempre gratuito.</span>
+          </p>
+        </div>
+        <div class="step reveal" style="transition-delay:0.15s">
+          <div class="step-num" aria-hidden="true">2</div>
+          <h4><span class="en">Flash</span><span class="pt hidden">Gravar</span></h4>
+          <p>
+            <span class="en">Write the ISO to a USB stick with Balena Etcher or Rufus.</span>
+            <span class="pt hidden">Grave o ISO numa pen USB com o Balena Etcher ou Rufus.</span>
+          </p>
+        </div>
+        <div class="step reveal" style="transition-delay:0.25s">
+          <div class="step-num" aria-hidden="true">3</div>
+          <h4><span class="en">Boot &amp; Learn</span><span class="pt hidden">Arrancar e Aprender</span></h4>
+          <p>
+            <span class="en">Boot the classroom machine. ScholarOS and the AI tutor are ready instantly.</span>
+            <span class="pt hidden">Arranque o computador da sala. O ScholarOS e o tutor de IA estão prontos de imediato.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── CTA ───────────────────────────────────────────────────── -->
+    <section class="cta" aria-labelledby="cta-heading">
+      <!-- FIX #1 + #8: single h2 with bilingual spans, one reveal wrapper -->
+      <div class="reveal">
+        <h2 id="cta-heading">
+          <span class="en">Ready to bring AI into your classroom?</span>
+          <span class="pt hidden">Pronto para trazer IA para a sua sala de aula?</span>
+        </h2>
+      </div>
+      <div class="reveal" style="transition-delay:0.1s">
+        <p>
+          <span class="en">Free, open-source, and offline. ScholarOS is the privacy-respecting way to give every student an AI tutor.</span>
+          <span class="pt hidden">Gratuito, de código aberto e offline. O ScholarOS é a forma que respeita a privacidade para dar a cada aluno um tutor de IA.</span>
+        </p>
+      </div>
+      <div class="reveal" style="transition-delay:0.2s">
+        <a href="https://drive.google.com/drive/folders/1p5p0nHEf7aJovvLhZJF8yXSMCjPJJbO3" target="_blank" rel="noopener noreferrer" class="btn-primary">
+          <span class="en">⬇ Download ScholarOS</span>
+          <span class="pt hidden">⬇ Descarregar ScholarOS</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── Footer ──────────────────────────────────────────────────── -->
+  <footer>
+    <div>
+      <span class="en">🄯 2026 ScholarOS Project — Open Source &amp; Built for Education</span>
+      <span class="pt hidden">🄯 2026 Projeto ScholarOS — Código Aberto &amp; Feito para a Educação</span>
+    </div>
+    <nav class="footer-links" aria-label="Footer links">
+      <a href="https://github.com/scholaros/scholaros.github.io" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://drive.google.com/drive/folders/1p5p0nHEf7aJovvLhZJF8yXSMCjPJJbO3" target="_blank" rel="noopener noreferrer">
+        <span class="en">Download</span><span class="pt hidden">Descarregar</span>
+      </a>
+    </nav>
+  </footer>
+
+  <script>
+    /* ─── Language switch ─────────────────────────────────────────────
+     * A two-phase curtain transition hides the instant content swap:
+     *   Phase 1 (0 – 180 ms): veil fades IN  → DOM swap happens at peak
+     *   Phase 2 (180 – 360 ms): veil fades OUT → new language revealed
+     *
+     * An `isTransitioning` guard prevents double-triggering mid-animation.
+     * Language preference is persisted in localStorage (FIX #3).
+     * refreshReveal() is called after the swap so newly-visible .reveal
+     * elements already in the viewport get their .visible class (FIX #1).
+     * ──────────────────────────────────────────────────────────────── */
+    const btnEn = document.getElementById('btn-en');
+    const btnPt = document.getElementById('btn-pt');
+    const veil  = document.getElementById('lang-veil');
+
+    let isTransitioning = false;
+
+    function applyLang(lang) {
+      /* Pure DOM swap — no animation here, called mid-veil. */
+      const isEn = lang === 'en';
+      document.documentElement.lang = lang;
+      document.title = isEn
+        ? 'ScholarOS — The Smart OS for Education'
+        : 'ScholarOS — O SO Inteligente para a Educação';
+
+      document.querySelectorAll('.en').forEach(el => el.classList.toggle('hidden', !isEn));
+      document.querySelectorAll('.pt').forEach(el => el.classList.toggle('hidden',  isEn));
+
+      btnEn.classList.toggle('active', isEn);
+      btnPt.classList.toggle('active', !isEn);
+      btnEn.setAttribute('aria-pressed', String(isEn));
+      btnPt.setAttribute('aria-pressed', String(!isEn));
+
+      try { localStorage.setItem('scholar-lang', lang); } catch (_) {}
+
+      refreshReveal(); /* FIX #1 */
+    }
+
+    function setLang(lang) {
+      if (isTransitioning) return;
+      /* Skip animation if the lang isn't actually changing. */
+      const current = document.documentElement.lang || 'en';
+      if (current === lang) return;
+
+      isTransitioning = true;
+
+      /* Phase 1: fade veil IN */
+      veil.classList.remove('fade-out');
+      veil.classList.add('fade-in');
+
+      setTimeout(() => {
+        /* DOM swap happens at peak opacity — invisible to the user */
+        applyLang(lang);
+
+        /* Phase 2: fade veil OUT */
+        veil.classList.remove('fade-in');
+        veil.classList.add('fade-out');
+
+        setTimeout(() => {
+          isTransitioning = false;
+        }, 200); /* matches transition duration */
+
+      }, 180); /* matches the fade-in transition duration */
+    }
+
+    btnEn.addEventListener('click', () => setLang('en'));
+    btnPt.addEventListener('click', () => setLang('pt'));
+
+    /* Restore saved language on load — no animation needed on first paint */
+    (function () {
+      let saved = 'en';
+      try { saved = localStorage.getItem('scholar-lang') || 'en'; } catch (_) {}
+      if (saved === 'pt') applyLang('pt'); /* use applyLang, not setLang — skip veil */
+    })();
+
+    /* ─── Sticky nav ──────────────────────────────────────────────── */
+    const nav = document.getElementById('main-nav');
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    /* ─── Scroll reveal ───────────────────────────────────────────────
+     * FIX #1: refreshReveal() marks any .reveal element that is already
+     *         in (or above) the viewport as .visible. Called on language
+     *         switch and on window scroll (for robustness).
+     * ──────────────────────────────────────────────────────────────── */
+    function refreshReveal() {
+      const threshold = window.innerHeight * 0.88;
+      document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+        // Skip elements that are currently display:none — they have no layout
+        if (el.offsetParent === null && !el.closest('.cta, .stats, .hero')) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top < threshold) {
+          el.classList.add('visible');
+          revealObserver.unobserve(el);
         }
-    </script>
+      });
+    }
+
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ─── Star field canvas ───────────────────────────────────────────
+     * FIX #2: cancel the previous rAF loop before starting a new one
+     *         so resize events don't leak multiple concurrent draw loops.
+     * FIX #4: use delta-time so star speed is frame-rate independent.
+     * FIX #7: guard against getContext returning null.
+     * ──────────────────────────────────────────────────────────────── */
+    (function () {
+      const canvas = document.getElementById('stars-canvas');
+      // FIX #7: bail out gracefully if canvas API is unavailable
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      let W, H, stars = [], raf = null, lastT = null;
+      const N = 140;
+      const BASE_SPEED = 30; // px per second (device-independent)
+
+      function resize() {
+        W = canvas.width  = canvas.offsetWidth;
+        H = canvas.height = canvas.offsetHeight;
+      }
+
+      function initStars() {
+        stars = Array.from({ length: N }, () => ({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.2 + 0.2,
+          speed: (Math.random() * 0.6 + 0.15) * BASE_SPEED,
+          alpha: Math.random() * 0.6 + 0.15,
+          twinkle: Math.random() * Math.PI * 2,
+        }));
+      }
+
+      // FIX #4: use delta-time (dt) for frame-rate independent movement
+      function draw(t) {
+        raf = requestAnimationFrame(draw);
+        const dt = lastT === null ? 0 : Math.min((t - lastT) / 1000, 0.05); // seconds, capped at 50ms
+        lastT = t;
+
+        ctx.clearRect(0, 0, W, H);
+        stars.forEach(s => {
+          s.twinkle += dt * 0.75; // radians per second
+          const a = s.alpha * (0.6 + 0.4 * Math.sin(s.twinkle));
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${a.toFixed(3)})`;
+          ctx.fill();
+          s.y -= s.speed * dt;
+          if (s.y < -2) { s.y = H + 2; s.x = Math.random() * W; }
+        });
+      }
+
+      const ro = new ResizeObserver(() => {
+        // FIX #2: cancel any running loop before starting a fresh one
+        if (raf !== null) { cancelAnimationFrame(raf); raf = null; lastT = null; }
+        resize();
+        initStars();
+        raf = requestAnimationFrame(draw);
+      });
+
+      ro.observe(canvas.parentElement);
+      resize();
+      initStars();
+      raf = requestAnimationFrame(draw);
+    })();
+  </script>
 </body>
 </html>
