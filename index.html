@@ -6,7 +6,6 @@
   <meta name="description" content="ScholarOS — the open-source OS built on Edubuntu, supercharged with local AI via Ollama. 100% private, offline-first, and made for modern classrooms." />
   <meta name="theme-color" content="#0a0f1e" />
 
-  <!-- FIX #6: Add Open Graph meta tags for social sharing -->
   <meta property="og:type"        content="website" />
   <meta property="og:title"       content="ScholarOS — The Smart OS for Education" />
   <meta property="og:description" content="Built on Edubuntu, supercharged with local AI via Ollama. 100% private, offline-first, and made for modern classrooms." />
@@ -42,8 +41,13 @@
 
       --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
       --ease-in-out:   cubic-bezier(0.45, 0, 0.55, 1);
+      --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
 
       --nav-h: 72px;
+
+      /* Lang transition timing */
+      --lang-fade-dur: 220ms;
+      --lang-fade-ease: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     html { scroll-behavior: smooth; }
@@ -56,7 +60,7 @@
       overflow-x: hidden;
     }
 
-    /* ─── FIX #5: Skip-to-content link ─────────────────────────────── */
+    /* ─── Skip link ─────────────────────────────────────────────────── */
     .skip-link {
       position: fixed;
       top: -100%;
@@ -72,24 +76,6 @@
       transition: top 0.2s;
     }
     .skip-link:focus { top: 0; outline: 3px solid var(--ink); outline-offset: 2px; }
-
-    /* ─── Language transition veil ──────────────────────────────────── */
-    /*
-     * A near-invisible ink curtain that sweeps across the page while the
-     * language DOM swap happens, masking the instant content flash.
-     * Stays below the nav (z-index 200) so branding is always visible.
-     */
-    #lang-veil {
-      position: fixed;
-      inset: 0;
-      background: var(--ink);
-      opacity: 0;
-      pointer-events: none;          /* never blocks interaction */
-      z-index: 150;
-      transition: opacity 0.18s cubic-bezier(0.4, 0, 0.6, 1);
-    }
-    #lang-veil.fade-in  { opacity: 0.22; }
-    #lang-veil.fade-out { opacity: 0;    }
 
     /* ─── Utility ───────────────────────────────────────────────────── */
     .hidden { display: none !important; }
@@ -109,7 +95,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      /* FIX #10: clamp padding so it never overflows on narrow screens */
       padding: 0 clamp(16px, 5%, 5%);
       z-index: 200;
       transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
@@ -131,7 +116,7 @@
       color: var(--white);
       text-decoration: none;
       letter-spacing: 0.01em;
-      flex-shrink: 0; /* FIX #10 */
+      flex-shrink: 0;
     }
 
     .logo-icon {
@@ -147,8 +132,7 @@
     .nav-right {
       display: flex;
       align-items: center;
-      gap: 10px; /* tightened slightly for mobile */
-      /* FIX #10: prevent overflow on very small screens */
+      gap: 10px;
       min-width: 0;
       flex-shrink: 1;
     }
@@ -176,31 +160,102 @@
 
     .github-btn svg { fill: currentColor; flex-shrink: 0; }
 
+    /* ─── Language Toggle Pill ──────────────────────────────────────── */
+    /*
+     * A sliding pill indicator moves between EN and PT using a
+     * CSS custom property --pill-x that is updated by JS.
+     * The pill itself is a ::before pseudo-element on .lang-pills.
+     *
+     * Layout: [EN][PT]  each button is ~50px wide (auto-sized)
+     * The sliding indicator background matches the .active gold fill.
+     */
     .lang-pills {
+      position: relative;
       display: flex;
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 8px;
       overflow: hidden;
-      flex-shrink: 0; /* FIX #10 */
+      flex-shrink: 0;
+      isolation: isolate;
+    }
+
+    /* Sliding gold indicator */
+    .lang-pills::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      /* width/height set from JS via custom properties */
+      width: var(--pill-w, 50%);
+      height: 100%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 7px;
+      /* Spring-physics slide */
+      transform: translateX(var(--pill-x, 0px));
+      transition: transform 380ms var(--ease-spring),
+                  width 380ms var(--ease-spring);
+      z-index: 0;
+      pointer-events: none;
     }
 
     .lang-pills button {
+      position: relative;
+      z-index: 1;          /* sits above the sliding ::before */
       background: transparent;
-      color: rgba(255,255,255,0.55);
       border: none;
-      padding: 7px 13px;
+      padding: 7px 16px;
       cursor: pointer;
       font-family: var(--font-body);
       font-size: 0.8rem;
-      font-weight: 500;
+      font-weight: 600;
       letter-spacing: 0.06em;
-      transition: background 0.2s, color 0.2s;
+      /* Colour crossfades between active/inactive states */
+      color: rgba(255,255,255,0.5);
+      transition: color 320ms var(--ease-in-out);
+      white-space: nowrap;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
+    /* Active button text goes dark (readable on gold background) */
     .lang-pills button.active {
-      background: var(--gold);
       color: var(--ink);
+    }
+
+    /* Pressed state feedback */
+    .lang-pills button:active {
+      transform: scale(0.94);
+      transition: transform 80ms ease, color 320ms var(--ease-in-out);
+    }
+
+    /* Focus ring sits outside the pill */
+    .lang-pills button:focus-visible {
+      outline: 2px solid var(--gold-light);
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+
+    /* ─── Content fade layer ────────────────────────────────────────── */
+    /*
+     * Instead of a full-page veil, each bilingual block
+     * (.en / .pt spans) fades individually.
+     * We wrap translatable content groups in a .lang-block container
+     * that gets the transition; swapping hidden class is then masked
+     * by opacity animation on .lang-block itself.
+     *
+     * For large structural swaps we use a single short body opacity pulse.
+     */
+
+    /* The body-level content fade: a single opacity dip on switch */
+    body.lang-switching #main-content {
+      opacity: 0;
+      transition: opacity var(--lang-fade-dur) var(--lang-fade-ease);
+    }
+
+    #main-content {
+      opacity: 1;
+      transition: opacity var(--lang-fade-dur) var(--lang-fade-ease);
     }
 
     /* ─── Hero ──────────────────────────────────────────────────────── */
@@ -217,7 +272,6 @@
       background: var(--ink);
     }
 
-    /* Star field canvas */
     #stars-canvas {
       position: absolute;
       inset: 0;
@@ -225,7 +279,6 @@
       pointer-events: none;
     }
 
-    /* Diagonal separator */
     .hero::after {
       content: '';
       position: absolute;
@@ -340,7 +393,6 @@
       background: rgba(255,255,255,0.06);
     }
 
-    /* badges */
     .hero-badges {
       position: relative;
       display: flex;
@@ -397,7 +449,6 @@
       margin: 0 auto;
     }
 
-    /* FIX #8: give features section-title its own color override for dark bg */
     .stats .section-title { color: var(--white); }
 
     .cards-grid {
@@ -491,7 +542,6 @@
       background: var(--paper);
     }
 
-    /* FIX #9: Step connector — use flex on .steps and align properly */
     .steps {
       display: flex;
       flex-wrap: wrap;
@@ -502,12 +552,10 @@
       position: relative;
     }
 
-    /* The connector line sits between step numbers, not edge-to-edge */
     .steps::before {
       content: '';
       position: absolute;
-      top: 27px; /* vertically centre with the 56px step circle */
-      /* align between the centres of first and last step numbers */
+      top: 27px;
       left: calc(100% / 6);
       right: calc(100% / 6);
       height: 1px;
@@ -534,7 +582,7 @@
       font-size: 1.3rem;
       color: var(--gold-light);
       margin: 0 auto 28px;
-      position: relative; /* sits above the ::before line */
+      position: relative;
       z-index: 1;
     }
 
@@ -611,12 +659,6 @@
     .footer-links { display: flex; gap: 20px; }
 
     /* ─── Scroll reveal ─────────────────────────────────────────────── */
-    /*
-     * FIX #1: Only elements that are currently visible (not hidden) get the
-     * reveal transition. Elements with .hidden have display:none so
-     * IntersectionObserver never fires on them. The JS refreshReveal() function
-     * handles newly-shown elements when the language switches.
-     */
     .reveal {
       opacity: 0;
       transform: translateY(28px);
@@ -636,13 +678,11 @@
     /* ─── Responsive ────────────────────────────────────────────────── */
     @media (max-width: 600px) {
       .steps::before { display: none; }
-      /* FIX #10: hide text label on GitHub button on small screens */
       .nav-right .github-btn .gh-label { display: none; }
       footer { flex-direction: column; text-align: center; }
       .footer-links { justify-content: center; }
     }
 
-    /* FIX #10: on very small screens, shrink nav items further */
     @media (max-width: 380px) {
       .lang-pills button { padding: 6px 9px; }
       .github-btn { padding: 6px 10px; }
@@ -651,11 +691,7 @@
 </head>
 <body>
 
-  <!-- FIX #5: Skip-to-content link for keyboard / screen reader users -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
-
-  <!-- Language transition veil — fades content during EN↔PT swap -->
-  <div id="lang-veil" aria-hidden="true"></div>
 
   <!-- ─── Nav ──────────────────────────────────────────────────────── -->
   <nav id="main-nav" aria-label="Main navigation">
@@ -668,10 +704,15 @@
         <svg height="17" width="17" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
         </svg>
-        <!-- FIX #10: wrapped in span so it's easy to hide on small screens -->
         <span class="gh-label">GitHub</span>
       </a>
-      <div class="lang-pills" role="group" aria-label="Language selector">
+
+      <!--
+        Language toggle pill
+        JS will set --pill-x and --pill-w as inline CSS custom props
+        so the ::before sliding indicator tracks the active button.
+      -->
+      <div class="lang-pills" id="lang-pills" role="group" aria-label="Language selector">
         <button id="btn-en" class="active" aria-pressed="true">EN</button>
         <button id="btn-pt" aria-pressed="false">PT</button>
       </div>
@@ -684,7 +725,6 @@
     <section class="hero" aria-labelledby="hero-heading">
       <canvas id="stars-canvas" aria-hidden="true"></canvas>
 
-      <!-- Single element per language group — language JS swaps content -->
       <p class="hero-eyebrow" id="hero-eyebrow-text">Open Source · Education · Privacy-First</p>
 
       <h1 class="hero-title" id="hero-heading">
@@ -729,7 +769,6 @@
     </section>
 
     <!-- ─── Features ──────────────────────────────────────────────── -->
-    <!-- FIX #8: unique ID per section heading -->
     <section class="features" aria-labelledby="features-heading">
       <div class="section-header reveal">
         <p class="section-label en">Core Features</p>
@@ -795,7 +834,6 @@
     </div>
 
     <!-- ─── How it works ──────────────────────────────────────────── -->
-    <!-- FIX #8: unique ID -->
     <section class="how" aria-labelledby="how-heading">
       <div class="section-header reveal">
         <p class="section-label en">Get Started</p>
@@ -836,7 +874,6 @@
 
     <!-- ─── CTA ───────────────────────────────────────────────────── -->
     <section class="cta" aria-labelledby="cta-heading">
-      <!-- FIX #1 + #8: single h2 with bilingual spans, one reveal wrapper -->
       <div class="reveal">
         <h2 id="cta-heading">
           <span class="en">Ready to bring AI into your classroom?</span>
@@ -874,24 +911,59 @@
   </footer>
 
   <script>
-    /* ─── Language switch ─────────────────────────────────────────────
-     * A two-phase curtain transition hides the instant content swap:
-     *   Phase 1 (0 – 180 ms): veil fades IN  → DOM swap happens at peak
-     *   Phase 2 (180 – 360 ms): veil fades OUT → new language revealed
-     *
-     * An `isTransitioning` guard prevents double-triggering mid-animation.
-     * Language preference is persisted in localStorage (FIX #3).
-     * refreshReveal() is called after the swap so newly-visible .reveal
-     * elements already in the viewport get their .visible class (FIX #1).
-     * ──────────────────────────────────────────────────────────────── */
-    const btnEn = document.getElementById('btn-en');
-    const btnPt = document.getElementById('btn-pt');
-    const veil  = document.getElementById('lang-veil');
+    /* ═══════════════════════════════════════════════════════════════════
+       LANGUAGE SWITCHER
+       Two smooth animations in tandem:
+
+       1. SLIDING PILL on the toggle:
+          A ::before pseudo-element rides the active button.
+          We measure each button's offsetLeft + offsetWidth and set
+          --pill-x / --pill-w CSS custom props on the pill container.
+          CSS transitions handle the spring-physics glide (380ms).
+
+       2. PAGE CONTENT CROSSFADE:
+          We briefly add .lang-switching to <body>, which dips
+          #main-content opacity to 0 (220ms ease-in). The DOM swap
+          happens at the dip's midpoint (110ms), then we remove
+          .lang-switching and the content fades back to 1 (220ms ease-out).
+          Result: a gentle blink that masks the instant text change.
+
+       An `isTransitioning` guard blocks double-triggers mid-animation.
+       Language preference is saved to localStorage.
+    ═══════════════════════════════════════════════════════════════════ */
+
+    const btnEn   = document.getElementById('btn-en');
+    const btnPt   = document.getElementById('btn-pt');
+    const pillEl  = document.getElementById('lang-pills');
+    const main    = document.getElementById('main-content');
 
     let isTransitioning = false;
 
+    /* ── Pill position helper ──────────────────────────────────────── */
+    function movePillTo(btn) {
+      /*
+       * Set --pill-x so the ::before indicator slides to sit
+       * exactly under `btn`. We use translateX (not `left`) so
+       * CSS transitions animate it with the spring ease.
+       */
+      pillEl.style.setProperty('--pill-x', btn.offsetLeft + 'px');
+      pillEl.style.setProperty('--pill-w', btn.offsetWidth + 'px');
+    }
+
+    /* Initialise pill position without animation (no transition yet) */
+    function initPill(lang) {
+      const btn = lang === 'en' ? btnEn : btnPt;
+      /* Suppress transition for instant snap on page load */
+      pillEl.style.setProperty('transition', 'none');
+      movePillTo(btn);
+      /* Re-enable transition on the next frame */
+      requestAnimationFrame(() => {
+        pillEl.style.removeProperty('transition');
+      });
+    }
+
+    /* ── DOM language swap ─────────────────────────────────────────── */
     function applyLang(lang) {
-      /* Pure DOM swap — no animation here, called mid-veil. */
       const isEn = lang === 'en';
       document.documentElement.lang = lang;
       document.title = isEn
@@ -906,47 +978,57 @@
       btnEn.setAttribute('aria-pressed', String(isEn));
       btnPt.setAttribute('aria-pressed', String(!isEn));
 
-      try { localStorage.setItem('scholar-lang', lang); } catch (_) {}
+      /* Move the sliding pill to the newly-active button */
+      movePillTo(isEn ? btnEn : btnPt);
 
-      refreshReveal(); /* FIX #1 */
+      try { localStorage.setItem('scholar-lang', lang); } catch (_) {}
+      refreshReveal();
     }
 
+    /* ── Animated language switch ──────────────────────────────────── */
     function setLang(lang) {
       if (isTransitioning) return;
-      /* Skip animation if the lang isn't actually changing. */
       const current = document.documentElement.lang || 'en';
       if (current === lang) return;
 
       isTransitioning = true;
 
-      /* Phase 1: fade veil IN */
-      veil.classList.remove('fade-out');
-      veil.classList.add('fade-in');
+      /* Phase 1: fade content OUT (110ms to midpoint) */
+      document.body.classList.add('lang-switching');
 
+      /* Phase 2: swap DOM at the dip's halfway point */
       setTimeout(() => {
-        /* DOM swap happens at peak opacity — invisible to the user */
         applyLang(lang);
 
-        /* Phase 2: fade veil OUT */
-        veil.classList.remove('fade-in');
-        veil.classList.add('fade-out');
+        /* Phase 3: fade content back IN */
+        document.body.classList.remove('lang-switching');
 
         setTimeout(() => {
           isTransitioning = false;
-        }, 200); /* matches transition duration */
+        }, 240); /* slightly longer than fade-in to be safe */
 
-      }, 180); /* matches the fade-in transition duration */
+      }, 140); /* halfway through the 220ms fade-out */
     }
 
+    /* ── Button listeners ──────────────────────────────────────────── */
     btnEn.addEventListener('click', () => setLang('en'));
     btnPt.addEventListener('click', () => setLang('pt'));
 
-    /* Restore saved language on load — no animation needed on first paint */
+    /* ── Initial paint — restore saved lang, no animation ─────────── */
     (function () {
       let saved = 'en';
       try { saved = localStorage.getItem('scholar-lang') || 'en'; } catch (_) {}
-      if (saved === 'pt') applyLang('pt'); /* use applyLang, not setLang — skip veil */
+      /* Init pill first (no animation) then apply lang silently */
+      initPill(saved);
+      if (saved === 'pt') applyLang('pt');
+      else initPill('en');   /* re-snap after applyLang might have reset it */
     })();
+
+    /* Re-snap pill on resize (button widths may change) */
+    window.addEventListener('resize', () => {
+      const lang = document.documentElement.lang || 'en';
+      movePillTo(lang === 'en' ? btnEn : btnPt);
+    }, { passive: true });
 
     /* ─── Sticky nav ──────────────────────────────────────────────── */
     const nav = document.getElementById('main-nav');
@@ -954,15 +1036,10 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    /* ─── Scroll reveal ───────────────────────────────────────────────
-     * FIX #1: refreshReveal() marks any .reveal element that is already
-     *         in (or above) the viewport as .visible. Called on language
-     *         switch and on window scroll (for robustness).
-     * ──────────────────────────────────────────────────────────────── */
+    /* ─── Scroll reveal ───────────────────────────────────────────── */
     function refreshReveal() {
       const threshold = window.innerHeight * 0.88;
       document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
-        // Skip elements that are currently display:none — they have no layout
         if (el.offsetParent === null && !el.closest('.cta, .stats, .hero')) return;
         const rect = el.getBoundingClientRect();
         if (rect.top < threshold) {
@@ -983,21 +1060,15 @@
 
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-    /* ─── Star field canvas ───────────────────────────────────────────
-     * FIX #2: cancel the previous rAF loop before starting a new one
-     *         so resize events don't leak multiple concurrent draw loops.
-     * FIX #4: use delta-time so star speed is frame-rate independent.
-     * FIX #7: guard against getContext returning null.
-     * ──────────────────────────────────────────────────────────────── */
+    /* ─── Star field canvas ───────────────────────────────────────── */
     (function () {
       const canvas = document.getElementById('stars-canvas');
-      // FIX #7: bail out gracefully if canvas API is unavailable
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
       let W, H, stars = [], raf = null, lastT = null;
       const N = 140;
-      const BASE_SPEED = 30; // px per second (device-independent)
+      const BASE_SPEED = 30;
 
       function resize() {
         W = canvas.width  = canvas.offsetWidth;
@@ -1015,15 +1086,14 @@
         }));
       }
 
-      // FIX #4: use delta-time (dt) for frame-rate independent movement
       function draw(t) {
         raf = requestAnimationFrame(draw);
-        const dt = lastT === null ? 0 : Math.min((t - lastT) / 1000, 0.05); // seconds, capped at 50ms
+        const dt = lastT === null ? 0 : Math.min((t - lastT) / 1000, 0.05);
         lastT = t;
 
         ctx.clearRect(0, 0, W, H);
         stars.forEach(s => {
-          s.twinkle += dt * 0.75; // radians per second
+          s.twinkle += dt * 0.75;
           const a = s.alpha * (0.6 + 0.4 * Math.sin(s.twinkle));
           ctx.beginPath();
           ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
@@ -1035,7 +1105,6 @@
       }
 
       const ro = new ResizeObserver(() => {
-        // FIX #2: cancel any running loop before starting a fresh one
         if (raf !== null) { cancelAnimationFrame(raf); raf = null; lastT = null; }
         resize();
         initStars();
