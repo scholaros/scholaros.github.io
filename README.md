@@ -1,11 +1,11 @@
 # 🎓 ScholarOS
 
-[ 🇬🇧 Read in English ](#english) | [ 🇵🇹 Ler em Português ](#português)
+[ EN Read in English ](#english) | [ PT Ler em Português ](#português)
 
 ---
 
 <a id="english"></a>
-## 🇬🇧 The Smart OS for Modern Classrooms
+## EN The Smart OS for Modern Classrooms
 
 ScholarOS is a specialized Linux distribution built on the rock-solid foundation of [Edubuntu](https://edubuntu.org/), supercharged with local, offline Artificial Intelligence via [Ollama](https://ollama.com/). It is designed to empower students and teachers with cutting-edge technology while guaranteeing 100% data privacy.
 
@@ -36,7 +36,7 @@ This project is licensed under the **GNU Affero General Public License v3.0 (AGP
 ---
 
 <a id="português"></a>
-## 🇵🇹 O SO Inteligente para as Salas de Aula Modernas
+## PT O SO Inteligente para as Salas de Aula Modernas
 
 O ScholarOS é uma distribuição Linux especializada, construída sobre a base sólida do [Edubuntu](https://edubuntu.org/), potenciada por Inteligência Artificial local e offline através do [Ollama](https://ollama.com/). Foi concebido para capacitar alunos e professores com tecnologia de ponta, garantindo em simultâneo 100% de privacidade dos dados.
 
