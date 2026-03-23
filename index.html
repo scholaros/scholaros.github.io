@@ -59,7 +59,6 @@
       overflow-x: hidden;
     }
 
-    /* ─── Skip link ─────────────────────────────────────────────────── */
     .skip-link {
       position: fixed;
       top: -100%;
@@ -76,7 +75,6 @@
     }
     .skip-link:focus { top: 0; outline: 3px solid var(--ink); outline-offset: 2px; }
 
-    /* ─── Utility ───────────────────────────────────────────────────── */
     .hidden { display: none !important; }
 
     @media (prefers-reduced-motion: reduce) {
@@ -86,7 +84,6 @@
       }
     }
 
-    /* ─── Nav ───────────────────────────────────────────────────────── */
     nav#main-nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -159,15 +156,6 @@
 
     .github-btn svg { fill: currentColor; flex-shrink: 0; }
 
-    /* ─── Language Toggle Pill ──────────────────────────────────────── */
-    /*
-     * A sliding pill indicator moves between EN and PT using a
-     * CSS custom property --pill-x that is updated by JS.
-     * The pill itself is a ::before pseudo-element on .lang-pills.
-     *
-     * Layout: [EN][PT]  each button is ~50px wide (auto-sized)
-     * The sliding indicator background matches the .active gold fill.
-     */
     .lang-pills {
       position: relative;
       display: flex;
@@ -179,18 +167,15 @@
       isolation: isolate;
     }
 
-    /* Sliding gold indicator */
     .lang-pills::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
-      /* width/height set from JS via custom properties */
       width: var(--pill-w, 50%);
       height: 100%;
       background: linear-gradient(135deg, var(--gold), var(--gold-light));
       border-radius: 7px;
-      /* Spring-physics slide */
       transform: translateX(var(--pill-x, 0px));
       transition: transform 380ms var(--ease-spring),
                   width 380ms var(--ease-spring);
@@ -200,7 +185,7 @@
 
     .lang-pills button {
       position: relative;
-      z-index: 1;          /* sits above the sliding ::before */
+      z-index: 1;
       background: transparent;
       border: none;
       padding: 7px 16px;
@@ -209,7 +194,6 @@
       font-size: 0.8rem;
       font-weight: 600;
       letter-spacing: 0.06em;
-      /* Colour crossfades between active/inactive states */
       color: rgba(255,255,255,0.5);
       transition: color 320ms var(--ease-in-out);
       white-space: nowrap;
@@ -217,36 +201,21 @@
       user-select: none;
     }
 
-    /* Active button text goes dark (readable on gold background) */
     .lang-pills button.active {
       color: var(--ink);
     }
 
-    /* Pressed state feedback */
     .lang-pills button:active {
       transform: scale(0.94);
       transition: transform 80ms ease, color 320ms var(--ease-in-out);
     }
 
-    /* Focus ring sits outside the pill */
     .lang-pills button:focus-visible {
       outline: 2px solid var(--gold-light);
       outline-offset: 2px;
       border-radius: 6px;
     }
 
-    /* ─── Content fade layer ────────────────────────────────────────── */
-    /*
-     * Instead of a full-page veil, each bilingual block
-     * (.en / .pt spans) fades individually.
-     * We wrap translatable content groups in a .lang-block container
-     * that gets the transition; swapping hidden class is then masked
-     * by opacity animation on .lang-block itself.
-     *
-     * For large structural swaps we use a single short body opacity pulse.
-     */
-
-    /* The body-level content fade: a single opacity dip on switch */
     body.lang-switching #main-content {
       opacity: 0;
       transition: opacity var(--lang-fade-dur) var(--lang-fade-ease);
@@ -257,7 +226,6 @@
       transition: opacity var(--lang-fade-dur) var(--lang-fade-ease);
     }
 
-    /* ─── Hero ──────────────────────────────────────────────────────── */
     .hero {
       position: relative;
       min-height: 100svh;
@@ -418,7 +386,6 @@
 
     .badge span { color: var(--gold-light); }
 
-    /* ─── Features ──────────────────────────────────────────────────── */
     .features {
       padding: 120px 6% 100px;
       background: var(--paper);
@@ -510,7 +477,6 @@
       line-height: 1.75;
     }
 
-    /* ─── Stats strip ────────────────────────────────────────────────── */
     .stats {
       background: var(--ink-2);
       padding: 72px 6%;
@@ -535,7 +501,6 @@
       letter-spacing: 0.05em;
     }
 
-    /* ─── How it works ──────────────────────────────────────────────── */
     .how {
       padding: 120px 6% 100px;
       background: var(--paper);
@@ -598,7 +563,6 @@
       line-height: 1.7;
     }
 
-    /* ─── CTA ───────────────────────────────────────────────────────── */
     .cta {
       background: var(--ink);
       padding: 100px 6%;
@@ -634,7 +598,6 @@
       font-size: 1.05rem;
     }
 
-    /* ─── Footer ────────────────────────────────────────────────────── */
     footer {
       background: #060a14;
       color: rgba(255,255,255,0.35);
@@ -657,7 +620,6 @@
 
     .footer-links { display: flex; gap: 20px; }
 
-    /* ─── Scroll reveal ─────────────────────────────────────────────── */
     .reveal {
       opacity: 0;
       transform: translateY(28px);
@@ -669,12 +631,10 @@
       transform: none;
     }
 
-    /* ─── Keyframes ─────────────────────────────────────────────────── */
     @keyframes fade-up {
       to { opacity: 1; transform: none; }
     }
 
-    /* ─── Responsive ────────────────────────────────────────────────── */
     @media (max-width: 600px) {
       .steps::before { display: none; }
       .nav-right .github-btn .gh-label { display: none; }
@@ -692,7 +652,6 @@
 
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <!-- ─── Nav ──────────────────────────────────────────────────────── -->
   <nav id="main-nav" aria-label="Main navigation">
     <a href="#" class="logo" aria-label="ScholarOS home">
       <div class="logo-icon" aria-hidden="true">🎓</div>
@@ -706,11 +665,6 @@
         <span class="gh-label">GitHub</span>
       </a>
 
-      <!--
-        Language toggle pill
-        JS will set --pill-x and --pill-w as inline CSS custom props
-        so the ::before sliding indicator tracks the active button.
-      -->
       <div class="lang-pills" id="lang-pills" role="group" aria-label="Language selector">
         <button id="btn-en" class="active" aria-pressed="true">EN</button>
         <button id="btn-pt" aria-pressed="false">PT</button>
@@ -720,7 +674,6 @@
 
   <main id="main-content">
 
-    <!-- ─── Hero ──────────────────────────────────────────────────── -->
     <section class="hero" aria-labelledby="hero-heading">
       <canvas id="stars-canvas" aria-hidden="true"></canvas>
 
@@ -728,7 +681,7 @@
 
       <h1 class="hero-title" id="hero-heading">
         <span class="en">The <em>smart</em> OS for modern classrooms</span>
-        <span class="pt hidden">O SO <em>inteligente</em> para a sala de aula moderna</span>
+        <span class="pt hidden">O Sistema Operativo <em>inteligente</em> para a sala de aula moderna</span>
       </h1>
 
       <p class="hero-sub">
@@ -767,7 +720,6 @@
       </div>
     </section>
 
-    <!-- ─── Features ──────────────────────────────────────────────── -->
     <section class="features" aria-labelledby="features-heading">
       <div class="section-header reveal">
         <p class="section-label en">Core Features</p>
@@ -808,7 +760,6 @@
       </div>
     </section>
 
-    <!-- ─── Stats ──────────────────────────────────────────────────── -->
     <div class="stats" role="region" aria-label="Project statistics">
       <div class="reveal">
         <div class="stat-num">100%</div>
@@ -832,7 +783,6 @@
       </div>
     </div>
 
-    <!-- ─── How it works ──────────────────────────────────────────── -->
     <section class="how" aria-labelledby="how-heading">
       <div class="section-header reveal">
         <p class="section-label en">Get Started</p>
@@ -871,7 +821,6 @@
       </div>
     </section>
 
-    <!-- ─── CTA ───────────────────────────────────────────────────── -->
     <section class="cta" aria-labelledby="cta-heading">
       <div class="reveal">
         <h2 id="cta-heading">
@@ -894,8 +843,7 @@
     </section>
 
   </main>
-
-  <!-- ─── Footer ──────────────────────────────────────────────────── -->
+  
   <footer>
     <div>
       <span class="en">🄯 2026 ScholarOS Project — Open Source &amp; Built for Education</span>
@@ -910,27 +858,6 @@
   </footer>
 
   <script>
-    /* ═══════════════════════════════════════════════════════════════════
-       LANGUAGE SWITCHER
-       Two smooth animations in tandem:
-
-       1. SLIDING PILL on the toggle:
-          A ::before pseudo-element rides the active button.
-          We measure each button's offsetLeft + offsetWidth and set
-          --pill-x / --pill-w CSS custom props on the pill container.
-          CSS transitions handle the spring-physics glide (380ms).
-
-       2. PAGE CONTENT CROSSFADE:
-          We briefly add .lang-switching to <body>, which dips
-          #main-content opacity to 0 (220ms ease-in). The DOM swap
-          happens at the dip's midpoint (110ms), then we remove
-          .lang-switching and the content fades back to 1 (220ms ease-out).
-          Result: a gentle blink that masks the instant text change.
-
-       An `isTransitioning` guard blocks double-triggers mid-animation.
-       Language preference is saved to localStorage.
-    ═══════════════════════════════════════════════════════════════════ */
-
     const btnEn   = document.getElementById('btn-en');
     const btnPt   = document.getElementById('btn-pt');
     const pillEl  = document.getElementById('lang-pills');
@@ -938,36 +865,26 @@
 
     let isTransitioning = false;
 
-    /* ── Pill position helper ──────────────────────────────────────── */
     function movePillTo(btn) {
-      /*
-       * Set --pill-x so the ::before indicator slides to sit
-       * exactly under `btn`. We use translateX (not `left`) so
-       * CSS transitions animate it with the spring ease.
-       */
       pillEl.style.setProperty('--pill-x', btn.offsetLeft + 'px');
       pillEl.style.setProperty('--pill-w', btn.offsetWidth + 'px');
     }
 
-    /* Initialise pill position without animation (no transition yet) */
     function initPill(lang) {
       const btn = lang === 'en' ? btnEn : btnPt;
-      /* Suppress transition for instant snap on page load */
       pillEl.style.setProperty('transition', 'none');
       movePillTo(btn);
-      /* Re-enable transition on the next frame */
       requestAnimationFrame(() => {
         pillEl.style.removeProperty('transition');
       });
     }
 
-    /* ── DOM language swap ─────────────────────────────────────────── */
     function applyLang(lang) {
       const isEn = lang === 'en';
       document.documentElement.lang = lang;
       document.title = isEn
         ? 'ScholarOS — The Smart OS for Education'
-        : 'ScholarOS — O SO Inteligente para a Educação';
+        : 'ScholarOS — O Sistema Operativo Inteligente para a Educação';
 
       document.querySelectorAll('.en').forEach(el => el.classList.toggle('hidden', !isEn));
       document.querySelectorAll('.pt').forEach(el => el.classList.toggle('hidden',  isEn));
@@ -977,14 +894,12 @@
       btnEn.setAttribute('aria-pressed', String(isEn));
       btnPt.setAttribute('aria-pressed', String(!isEn));
 
-      /* Move the sliding pill to the newly-active button */
       movePillTo(isEn ? btnEn : btnPt);
 
       try { localStorage.setItem('scholar-lang', lang); } catch (_) {}
       refreshReveal();
     }
-
-    /* ── Animated language switch ──────────────────────────────────── */
+    
     function setLang(lang) {
       if (isTransitioning) return;
       const current = document.documentElement.lang || 'en';
@@ -992,50 +907,41 @@
 
       isTransitioning = true;
 
-      /* Phase 1: fade content OUT (110ms to midpoint) */
       document.body.classList.add('lang-switching');
 
-      /* Phase 2: swap DOM at the dip's halfway point */
       setTimeout(() => {
         applyLang(lang);
 
-        /* Phase 3: fade content back IN */
         document.body.classList.remove('lang-switching');
 
         setTimeout(() => {
           isTransitioning = false;
-        }, 240); /* slightly longer than fade-in to be safe */
-
-      }, 140); /* halfway through the 220ms fade-out */
+        }, 240);
+        
+      }, 140);
     }
 
-    /* ── Button listeners ──────────────────────────────────────────── */
     btnEn.addEventListener('click', () => setLang('en'));
     btnPt.addEventListener('click', () => setLang('pt'));
 
-    /* ── Initial paint — restore saved lang, no animation ─────────── */
     (function () {
       let saved = 'en';
       try { saved = localStorage.getItem('scholar-lang') || 'en'; } catch (_) {}
-      /* Init pill first (no animation) then apply lang silently */
       initPill(saved);
       if (saved === 'pt') applyLang('pt');
-      else initPill('en');   /* re-snap after applyLang might have reset it */
+      else initPill('en');
     })();
 
-    /* Re-snap pill on resize (button widths may change) */
     window.addEventListener('resize', () => {
       const lang = document.documentElement.lang || 'en';
       movePillTo(lang === 'en' ? btnEn : btnPt);
     }, { passive: true });
 
-    /* ─── Sticky nav ──────────────────────────────────────────────── */
     const nav = document.getElementById('main-nav');
     const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    /* ─── Scroll reveal ───────────────────────────────────────────── */
     function refreshReveal() {
       const threshold = window.innerHeight * 0.88;
       document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
@@ -1059,7 +965,6 @@
 
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-    /* ─── Star field canvas ───────────────────────────────────────── */
     (function () {
       const canvas = document.getElementById('stars-canvas');
       const ctx = canvas.getContext('2d');
