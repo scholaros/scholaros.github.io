@@ -1,6 +1,6 @@
 # 🎓 ScholarOS
 
-[ Read in English ](#english)  | [ Ler em Português ](#português)
+[ Read in English ](#english)|[ Ler em Português ](#português)
 
 ---
 
